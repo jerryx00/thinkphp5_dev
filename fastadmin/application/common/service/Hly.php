@@ -361,4 +361,112 @@ class Hly extends HlyBase{
         return $data;
 
     }
+    
+    
+    /**
+    * 订单查询接口
+    * query/orderInfo
+    * 
+    * @param mixed $d
+    */
+    public function query($d=[]) {
+        $time = getMillisecond();
+        $appkey = C('AppKey');
+        $SecretKey = C('SecretKey');
+
+        $token = $this->getToken();
+        $sign = get_hly_sign($time);
+
+
+
+        $orderId = $d['orderId'];
+        $cancel_reason = $d['cancel_reason'];
+        $comments = $d['comments'];
+
+        $xmldata['Datetime'] = $time;
+        $xmldata['Content']['orderId'] = $d['orderId'];
+
+
+        $url = C('HLY_QUERY_URL');
+
+        $paras = xml_encode($xmldata, 'Request');
+
+        //        echo 'query url ==> '.$url."<br>";
+
+        list($result, $returnContent) = http_post_hly($url, $paras, $token, $sign);
+        //        if ($d['showflag'] == 1)   {
+        //dump($paras);
+        //            echo "<br>" ;
+        //
+        //            dump($result);
+        //            echo "<br>" ;
+        //            dump($returnContent); 
+        //        } 
+        /**
+        <Response>
+        <Datetime>1516155816683</Datetime>
+        <Content>
+        <retCode>0000</retCode>
+        <retMsg></retMsg>
+        <status>0</status>
+        <statusMsg>已下单</statusMsg>
+        <deliveryNo></deliveryNo>
+        <deliveryExpress></deliveryExpress>
+        <deliveryExpStatus></deliveryExpStatus>
+        <deliveryExpInfo></deliveryExpInfo>
+        </Content>
+        </Response>
+        */
+
+        $data = [];
+        $data['code'] = $result;
+        $data['response'] = $returnContent;
+        return $data;
+
+    }
+    
+    
+    
+    public function unLockNum($d=[]) {
+        $time = getMillisecond();
+        $appkey = C('AppKey');
+        $SecretKey = C('SecretKey');
+
+        $token = $this->getToken();
+        $sign = get_hly_sign($time);
+
+
+
+        $Region = $d['region'];
+        $TelNum = $d['telnum'];
+
+        $xmldata['Datetime'] = $time;
+        $xmldata['Content']['Region'] = $Region;
+        $xmldata['Content']['Telnum'] = $TelNum;
+        $xmldata['Content']['Type'] = '2';
+
+        $url = C('HLY_UNLOCK_URL');
+
+        $paras = xml_encode($xmldata, 'Request');
+
+        list($result, $returnContent) = http_post_hly($url, $paras, $token, $sign);
+
+        //$result = 200;
+        //        $returnContent = '
+        //        <Response>
+        //        <Datetime>1516155816683</Datetime>
+        //        <Content>
+        //        <ReturnCode>0</ReturnCode>
+        //        <ReturnMessage></ReturnMessage>
+        //        </Content>
+        //        </Response>
+        //
+        //        ';
+
+        $data = [];
+        $data['code'] = $result;
+        $data['response'] = $returnContent;        
+        return $data;
+
+    }
 }
