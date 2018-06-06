@@ -14,24 +14,11 @@ composer.lock
 *.css.map
 !.gitkeep
 .env
-<<<<<<< .mine
-config.php
-=======
 
->>>>>>> .theirs
 #显示指定忽略具体文件名
-<<<<<<< .mine
-
-
-
-
-
-
-=======
 config.php
 database.php
 mail.php
 
 
 
->>>>>>> .theirs
