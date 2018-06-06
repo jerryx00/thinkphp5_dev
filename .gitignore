@@ -16,7 +16,7 @@ composer.lock
 .env
 
 #显示指定忽略具体文件名
-config.php
+#config.php
 database.php
 mail.php
 
