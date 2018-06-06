@@ -102,13 +102,13 @@ class Hly extends HlyBase{
         list($result, $returnContent) = http_post_hly($url, $paras, '', '');
 
         //测试begin
-        $result = 200;
+//        $result = 200;
        // $returnContent = '<Response><Datetime>2017-05-04T11:23:13.729+08:00</Datetime><Authorization><Token>eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..eyJpc3MiOiJmbG93LXBsYXRmb3JtIiwiYXVkIjoiYjM5NWU2NmRlNWQ5NDU4YjhiOGVlZWRkNjAyY2U3ZDM6OjoiLCJleHAiOjE0OTM4Njk5OTN9.NHQ2PKaW45Q_l_WOx0-YzZ-TjY7o_TL3yJGHvcIFJp8</Token><ExpiredTime>2017-05-04T11:53:13.729+08:00</ExpiredTime><CreatedTime>2017-05-04T11:23:13.729+08:00</CreatedTime></Authorization></Response>';
        
-       $ret['Datetime']= '2017-05-04T11:23:13.729+08:00';
-       $ret['Authorization']['Token']= 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9';
-       $ret['Authorization']['CreatedTime']= '2017-05-04T11:23:13.729+08:00';
-       $ret['Authorization']['ExpiredTime']= '2017-05-04T11:23:43.729+08:00';
+//       $ret['Datetime']= '2017-05-04T11:23:13.729+08:00';
+//       $ret['Authorization']['Token']= 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9';
+//       $ret['Authorization']['CreatedTime']= '2017-05-04T11:23:13.729+08:00';
+//       $ret['Authorization']['ExpiredTime']= '2017-05-04T11:23:43.729+08:00';
        
        //$returnContent = '<Response><Datetime>2017-05-04T11:23:13.729+08:00</Datetime><Authorization><Token>eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..o_TL3yJGHvcIFJp8</Token><ExpiredTime>2017-05-04T11:53:13.729+08:00</ExpiredTime><CreatedTime>2017-05-04T11:23:13.729+08:00</CreatedTime></Authorization></Response>';
         //测试end
