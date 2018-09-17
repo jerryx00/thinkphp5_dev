@@ -1,0 +1,155 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Orderid')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-orderid" class="form-control form-control" name="row[orderid]" type="text" value="{$row.orderid}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Bookingid')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-bookingid" class="form-control form-control" name="row[bookingid]" type="text" value="{$row.bookingid}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Region')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-region" class="form-control form-control" name="row[region]" type="text" value="{$row.region}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Custname')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-custname" class="form-control form-control" name="row[custname]" type="text" value="{$row.custname}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Accnbr')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-accnbr" class="form-control form-control" name="row[accnbr]" type="text" value="{$row.accnbr}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Icno')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-icno" class="form-control form-control" name="row[icno]" type="text" value="{$row.icno}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Contactname')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-contactname" class="form-control form-control" name="row[contactname]" type="text" value="{$row.contactname}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Contactphone')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-contactphone" class="form-control form-control" name="row[contactphone]" type="text" value="{$row.contactphone}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Countyname')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-countyname" class="form-control form-control" name="row[countyname]" type="text" value="{$row.countyname}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Type')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-type" class="form-control form-control" name="row[type]" type="text" value="{$row.type}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Remark')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-remark" class="form-control form-control" name="row[remark]" type="text" value="{$row.remark}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goodcode')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goodcode" class="form-control form-control" name="row[goodcode]" type="text" value="{$row.goodcode}" readonly>
+        </div>
+    </div>
+    <!--div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Addressid')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-addressid" class="form-control form-control" name="row[addressid]" type="text" value="{$row.addressid}" readonly>
+        </div>
+    </div-->
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Addressname')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-addressname" class="form-control form-control" name="row[addressname]" type="text" value="{$row.addressname}" readonly>
+        </div>
+    </div>
+    <!--div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Areaid')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-areaid" class="form-control form-control" name="row[areaid]" type="text" value="{$row.areaid}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Areaname')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-areaname" class="form-control form-control" name="row[areaname]" type="text" value="{$row.areaname}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Networkaccess')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-networkaccess" class="form-control form-control" name="row[networkaccess]" type="text" value="{$row.networkaccess}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Uptownid')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-uptownid" class="form-control form-control" name="row[uptownid]" type="text" value="{$row.uptownid}">
+        </div>
+    </div-->
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Created_at')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-created_at" class="form-control form-control" name="row[created_at]" type="text" value="{$row.created_at}" readonly>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Cancel_at')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-cancel_at" class="form-control form-control" name="row[cancel_at]" type="text" value="{$row.cancel_at}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Cancel_reason')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-cancel_reason" class="form-control form-control" name="row[cancel_reason]" type="text" value="{$row.cancel_reason}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Resp_code')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-resp_code" class="form-control form-control" name="row[resp_code]" type="text" value="{$row.resp_code}" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Resp_msg')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-resp_msg" class="form-control form-control" name="row[resp_msg]" type="text" value="{$row.resp_msg}" readonly>
+        </div>
+    </div>
+    <!--div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Comments')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-comments" class="form-control form-control" name="row[comments]" type="text" value="{$row.comments}">
+        </div>
+    </div-->
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
