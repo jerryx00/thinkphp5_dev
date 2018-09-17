@@ -83,6 +83,7 @@ class Command extends Backend
             if (!$file->isDir()) {
                 $filePath = $file->getRealPath();
                 $name = str_replace($controllerDir, '', $filePath);
+                $name = str_replace('\\','/',$name);
                 $list[] = ['id' => $name, 'name' => $name];
             }
         }
