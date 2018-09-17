@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'name' => '南京金豌豆',
+  'name' => 'JWD',
   'beian' => '',
   'cdnurl' => '',
   'version' => '1.0.1',

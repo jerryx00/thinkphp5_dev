@@ -86,9 +86,9 @@ class Command extends Backend
                 $list[] = ['id' => $name, 'name' => $name];
             }
         }
-        $pageNumber=$this->request->request("pageNumber");
-        $pageSize=$this->request->request("pageSize");
-        return json(['list' => array_slice($list,($pageNumber-1)*$pageSize,$pageSize), 'total' => count($list)]);
+        $pageNumber = $this->request->request("pageNumber");
+        $pageSize = $this->request->request("pageSize");
+        return json(['list' => array_slice($list, ($pageNumber - 1) * $pageSize, $pageSize), 'total' => count($list)]);
     }
 
     /**
@@ -130,11 +130,17 @@ class Command extends Backend
         ];
         $argv = [];
         $allowfields = isset($allowfields[$commandtype]) ? explode(',', $allowfields[$commandtype]) : [];
-        foreach (array_filter(array_intersect_key($params, array_flip($allowfields))) as $key => $param) {
+        $allowfields = array_filter(array_intersect_key($params, array_flip($allowfields)));
+        if (isset($params['local']) && !$params['local']) {
+            $allowfields['local'] = $params['local'];
+        } else {
+            unset($allowfields['local']);
+        }
+        foreach ($allowfields as $key => $param) {
             $argv[] = "--{$key}=" . (is_array($param) ? implode(',', $param) : $param);
         }
         if ($commandtype == 'crud') {
-            $extend = 'setcheckboxsuffix,enumradiosuffix,imagefield,filefield,intdatesuffix,switchsuffix,citysuffix,selectpagesuffix,selectpagessuffix,ignorefields,sortfield,editorclass';
+            $extend = 'setcheckboxsuffix,enumradiosuffix,imagefield,filefield,intdatesuffix,switchsuffix,citysuffix,selectpagesuffix,selectpagessuffix,ignorefields,sortfield,editorsuffix,headingfilterfield';
             $extendArr = explode(',', $extend);
             foreach ($params as $index => $item) {
                 if (in_array($index, $extendArr)) {
@@ -196,12 +202,13 @@ class Command extends Backend
         try {
             $command->run($input, $output);
             $result = implode("\n", $output->getMessage());
-            $this->model->status = 'failured';
+            $this->model->status = 'successed';
         } catch (Exception $e) {
             $result = implode("\n", $output->getMessage()) . "\n";
             $result .= $e->getMessage();
-            $this->model->status = 'successed';
+            $this->model->status = 'failured';
         }
+        $result = trim($result);
         $this->model->content = $result;
         $this->model->save();
         return $result;

@@ -1,1 +1,0 @@
-php think crud --local=1 --table=qw_hlyoffer --fields=offer_id,offer_name,price,period,tariffdesc,marketingcampaign

@@ -70,7 +70,7 @@ class Api extends Command
         }
 
         if (version_compare(PHP_VERSION, '7.0.0', '<')) {
-            if (extension_loaded('opcache')) {
+            if (extension_loaded('Zend OPcache')) {
                 $configuration = opcache_get_configuration();
                 $directives = $configuration['directives'];
                 $configName = request()->isCli() ? 'opcache.enable_cli' : 'opcache.enable';
@@ -88,11 +88,12 @@ class Api extends Command
         );
 
         foreach ($files as $name => $file) {
-            if (!$file->isDir()) {
+            if (!$file->isDir() && $file->getExtension() == 'php') {
                 $filePath = $file->getRealPath();
                 $classes[] = $this->get_class_from_file($filePath);
             }
         }
+        $classes = array_unique(array_filter($classes));
 
         $config = [
             'title'       => $title,

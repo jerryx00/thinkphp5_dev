@@ -27,26 +27,20 @@ class Config extends Backend
      */
     public function add()
     {
-        if ($this->request->isPost())
-        {
+        if ($this->request->isPost()) {
             $params = $this->request->post("row/a");
-            if ($params)
-            {
-                foreach ($params as $k => &$v)
-                {
+            if ($params) {
+                foreach ($params as $k => &$v) {
                     $v = is_array($v) ? implode(',', $v) : $v;
                 }
 
-                if ($params['mode'] == 'json')
-                {
+                if ($params['mode'] == 'json') {
                     //JSON字段
                     $fieldarr = $valuearr = [];
                     $field = $this->request->post('field/a');
                     $value = $this->request->post('value/a');
-                    foreach ($field as $k => $v)
-                    {
-                        if ($v != '')
-                        {
+                    foreach ($field as $k => $v) {
+                        if ($v != '') {
                             $fieldarr[] = $field[$k];
                             $valuearr[] = $value[$k];
                         }
@@ -54,27 +48,20 @@ class Config extends Backend
                     $params['value'] = json_encode(array_combine($fieldarr, $valuearr), JSON_UNESCAPED_UNICODE);
                 }
                 unset($params['mode']);
-                try
-                {
+                try {
                     //是否采用模型验证
-                    if ($this->modelValidate)
-                    {
+                    if ($this->modelValidate) {
                         $name = basename(str_replace('\\', '/', get_class($this->model)));
                         $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.add' : true) : $this->modelValidate;
                         $this->model->validate($validate);
                     }
                     $result = $this->model->save($params);
-                    if ($result !== false)
-                    {
+                    if ($result !== false) {
                         $this->success();
-                    }
-                    else
-                    {
+                    } else {
                         $this->error($this->model->getError());
                     }
-                }
-                catch (\think\exception\PDOException $e)
-                {
+                } catch (\think\exception\PDOException $e) {
                     $this->error($e->getMessage());
                 }
             }
@@ -91,26 +78,20 @@ class Config extends Backend
         $row = $this->model->get($ids);
         if (!$row)
             $this->error(__('No Results were found'));
-        if ($this->request->isPost())
-        {
+        if ($this->request->isPost()) {
             $params = $this->request->post("row/a");
-            if ($params)
-            {
-                foreach ($params as $k => &$v)
-                {
+            if ($params) {
+                foreach ($params as $k => &$v) {
                     $v = is_array($v) ? implode(',', $v) : $v;
                 }
 
-                if ($params['mode'] == 'json')
-                {
+                if ($params['mode'] == 'json') {
                     //JSON字段
                     $fieldarr = $valuearr = [];
                     $field = $this->request->post('field/a');
                     $value = $this->request->post('value/a');
-                    foreach ($field as $k => $v)
-                    {
-                        if ($v != '')
-                        {
+                    foreach ($field as $k => $v) {
+                        if ($v != '') {
                             $fieldarr[] = $field[$k];
                             $valuearr[] = $value[$k];
                         }
@@ -118,34 +99,27 @@ class Config extends Backend
                     $params['value'] = json_encode(array_combine($fieldarr, $valuearr), JSON_UNESCAPED_UNICODE);
                 }
                 unset($params['mode']);
-                try
-                {
+                try {
                     //是否采用模型验证
-                    if ($this->modelValidate)
-                    {
+                    if ($this->modelValidate) {
                         $name = basename(str_replace('\\', '/', get_class($this->model)));
                         $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.add' : true) : $this->modelValidate;
                         $row->validate($validate);
                     }
                     $result = $row->save($params);
-                    if ($result !== false)
-                    {
+                    if ($result !== false) {
                         $this->success();
-                    }
-                    else
-                    {
+                    } else {
                         $this->error($row->getError());
                     }
-                }
-                catch (think\exception\PDOException $e)
-                {
+                } catch (\think\exception\PDOException $e) {
                     $this->error($e->getMessage());
                 }
             }
             $this->error(__('Parameter %s can not be empty', ''));
         }
         $this->view->assign("row", $row);
-        $this->view->assign("value", (array) json_decode($row->value, true));
+        $this->view->assign("value", (array)json_decode($row->value, true));
         return $this->view->fetch();
     }
 

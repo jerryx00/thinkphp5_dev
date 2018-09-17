@@ -2,9 +2,13 @@
 
 namespace app\admin\controller\general;
 
+use addons\database\library\Backup;
 use app\common\controller\Backend;
 use think\Db;
 use think\Debug;
+use think\Exception;
+use think\exception\PDOException;
+use ZipArchive;
 
 /**
  * 数据库管理
@@ -15,6 +19,8 @@ use think\Debug;
 class Database extends Backend
 {
 
+    protected $noNeedRight = ['backuplist'];
+
     /**
      * 查看
      */
@@ -23,8 +29,7 @@ class Database extends Backend
         $tables_data_length = $tables_index_length = $tables_free_length = $tables_data_count = 0;
         $tables = $list = [];
         $list = Db::query("SHOW TABLES");
-        foreach ($list as $key => $row)
-        {
+        foreach ($list as $key => $row) {
             $tables[] = ['name' => reset($row), 'rows' => 0];
         }
         $data['tables'] = $tables;
@@ -49,22 +54,122 @@ class Database extends Backend
 
         $tablename = $this->request->post("tablename/a");
 
-        if (in_array($do_action, array('doquery', 'optimizeall', 'repairall')))
-        {
+        if (in_array($do_action, array('doquery', 'optimizeall', 'repairall'))) {
             $this->$do_action();
-        }
-        else if (count($tablename) == 0)
-        {
+        } else if (count($tablename) == 0) {
             exit(__('Invalid parameters'));
-        }
-        else
-        {
-            foreach ($tablename as $table)
-            {
+        } else {
+            foreach ($tablename as $table) {
                 $this->$do_action($table);
                 echo "<br />";
             }
         }
+    }
+
+    /**
+     * 备份列表
+     * @internal
+     */
+    public function backuplist()
+    {
+        $config = get_addon_config('database');
+        $backupDir = ROOT_PATH . 'public' . DS . $config['backupDir'];
+
+        $backuplist = [];
+        foreach (glob($backupDir . "*.zip") as $filename) {
+            $time = filemtime($filename);
+            $backuplist[$time] =
+                [
+                    'file' => str_replace($backupDir, '', $filename),
+                    'date' => date("Y-m-d H:i:s", $time),
+                    'size' => format_bytes(filesize($filename))
+                ];
+        }
+        krsort($backuplist);
+
+        $this->success("", null, ['backuplist' => array_values($backuplist)]);
+    }
+
+    /**
+     * 还原
+     */
+    public function restore($ids = '')
+    {
+        $config = get_addon_config('database');
+        $backupDir = ROOT_PATH . 'public' . DS . $config['backupDir'];
+        if ($this->request->isPost()) {
+
+            $action = $this->request->request('action');
+            $file = $this->request->request('file');
+            $file = $backupDir . $file;
+            if ($action == 'restore') {
+                try {
+                    $dir = RUNTIME_PATH . 'database' . DS;
+                    if (!is_dir($dir)) {
+                        mkdir($dir, 0755);
+                    }
+
+                    if (class_exists('ZipArchive')) {
+                        $zip = new ZipArchive;
+                        if ($zip->open($file) !== TRUE) {
+                            throw new Exception(__('Can not open zip file'));
+                        }
+                        if (!$zip->extractTo($dir)) {
+                            $zip->close();
+                            throw new Exception(__('Can not unzip file'));
+                        }
+                        $zip->close();
+                        $filename = basename($file);
+                        $sqlFile = $dir . str_replace('.zip', '.sql', $filename);
+                        if (!is_file($sqlFile)) {
+                            throw new Exception(__('Sql file not found'));
+                        }
+                        $filesize = filesize($sqlFile);
+                        $list = Db::query('SELECT @@global.max_allowed_packet');
+                        if (isset($list[0]['@@global.max_allowed_packet']) && $filesize >= $list[0]['@@global.max_allowed_packet']) {
+                            Db::execute('SET @@global.max_allowed_packet = ' . ($filesize + 1024));
+                            //throw new Exception('备份文件超过配置max_allowed_packet大小，请修改Mysql服务器配置');
+                        }
+                        $sql = file_get_contents($sqlFile);
+
+                        Db::clear();
+                        //必须重连一次
+                        Db::connect([], true)->query("select 1");
+                        Db::getPdo()->exec($sql);
+
+                    }
+                } catch (Exception $e) {
+                    $this->error($e->getMessage());
+                } catch (PDOException $e) {
+                    $this->error($e->getMessage());
+                }
+                $this->success(__('Restore successful'));
+
+            } else if ($action == 'delete') {
+                unlink($file);
+                $this->success(__('Delete successful'));
+            }
+        }
+    }
+
+    /**
+     * 备份
+     */
+    public function backup()
+    {
+        $config = get_addon_config('database');
+        $backupDir = ROOT_PATH . 'public' . DS . $config['backupDir'];
+        if ($this->request->isPost()) {
+            $database = config('database');
+            try {
+                $backup = new Backup($database['hostname'], $database['username'], $database['database'], $database['password'], $database['hostport']);
+                $backup->setIgnoreTable($config['backupIgnoreTables'])->backup($backupDir);
+            } catch (Exception $e) {
+                $this->error($e->getMessage());
+            }
+            $this->success(__('Backup successful'));
+        }
+        return;
     }
 
     private function viewinfo($name)
@@ -83,12 +188,9 @@ class Database extends Backend
 
     private function optimize($name = '')
     {
-        if (Db::execute("OPTIMIZE TABLE `{$name}`"))
-        {
+        if (Db::execute("OPTIMIZE TABLE `{$name}`")) {
             echo __('Optimize table %s done', $name);
-        }
-        else
-        {
+        } else {
             echo __('Optimize table %s fail', $name);
         }
     }
@@ -96,15 +198,11 @@ class Database extends Backend
     private function optimizeall($name = '')
     {
         $list = Db::query("SHOW TABLES");
-        foreach ($list as $key => $row)
-        {
+        foreach ($list as $key => $row) {
             $name = reset($row);
-            if (Db::execute("OPTIMIZE TABLE {$name}"))
-            {
+            if (Db::execute("OPTIMIZE TABLE {$name}")) {
                 echo __('Optimize table %s done', $name);
-            }
-            else
-            {
+            } else {
                 echo __('Optimize table %s fail', $name);
             }
             echo "<br />";
@@ -113,12 +211,9 @@ class Database extends Backend
 
     private function repair($name = '')
     {
-        if (Db::execute("REPAIR TABLE `{$name}`"))
-        {
+        if (Db::execute("REPAIR TABLE `{$name}`")) {
             echo __('Repair table %s done', $name);
-        }
-        else
-        {
+        } else {
             echo __('Repair table %s fail', $name);
         }
     }
@@ -126,15 +221,11 @@ class Database extends Backend
     private function repairall($name = '')
     {
         $list = Db::query("SHOW TABLES");
-        foreach ($list as $key => $row)
-        {
+        foreach ($list as $key => $row) {
             $name = reset($row);
-            if (Db::execute("REPAIR TABLE {$name}"))
-            {
+            if (Db::execute("REPAIR TABLE {$name}")) {
                 echo __('Repair table %s done', $name);
-            }
-            else
-            {
+            } else {
                 echo __('Repair table %s fail', $name);
             }
             echo "<br />";
@@ -150,54 +241,42 @@ class Database extends Backend
         $sqls = preg_split("/;[ \t]{0,}\n/i", $sqlquery);
         $maxreturn = 100;
         $r = '';
-        foreach ($sqls as $key => $val)
-        {
+        foreach ($sqls as $key => $val) {
             if (trim($val) == '')
                 continue;
             $val = rtrim($val, ';');
             $r .= "SQL：<span style='color:green;'>{$val}</span> ";
-            if (preg_match("/^(select|explain)(.*)/i ", $val))
-            {
+            if (preg_match("/^(select|explain)(.*)/i ", $val)) {
                 Debug::remark("begin");
                 $limit = stripos(strtolower($val), "limit") !== false ? true : false;
                 $count = Db::execute($val);
-                if ($count > 0)
-                {
+                if ($count > 0) {
                     $resultlist = Db::query($val . (!$limit && $count > $maxreturn ? ' LIMIT ' . $maxreturn : ''));
-                }
-                else
-                {
+                } else {
                     $resultlist = [];
                 }
                 Debug::remark("end");
                 $time = Debug::getRangeTime('begin', 'end', 4);
 
                 $usedseconds = __('Query took %s seconds', $time) . "<br />";
-                if ($count <= 0)
-                {
+                if ($count <= 0) {
                     $r .= __('Query returned an empty result');
-                }
-                else
-                {
+                } else {
                     $r .= (__('Total:%s', $count) . (!$limit && $count > $maxreturn ? ',' . __('Max output:%s', $maxreturn) : ""));
                 }
                 $r = $r . ',' . $usedseconds;
                 $j = 0;
-                foreach ($resultlist as $m => $n)
-                {
+                foreach ($resultlist as $m => $n) {
                     $j++;
                     if (!$limit && $j > $maxreturn)
                         break;
                     $r .= "<hr/>";
                     $r .= "<font color='red'>" . __('Row:%s', $j) . "</font><br />";
-                    foreach ($n as $k => $v)
-                    {
+                    foreach ($n as $k => $v) {
                         $r .= "<font color='blue'>{$k}：</font>{$v}<br/>\r\n";
                     }
                 }
-            }
-            else
-            {
+            } else {
                 Debug::remark("begin");
                 $count = Db::execute($val);
                 Debug::remark("end");

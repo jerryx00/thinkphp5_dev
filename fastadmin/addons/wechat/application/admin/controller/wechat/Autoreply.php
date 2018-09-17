@@ -30,11 +30,9 @@ class Autoreply extends Backend
         $row = $this->model->get(['id' => $ids]);
         if (!$row)
             $this->error(__('No Results were found'));
-        if ($this->request->isPost())
-        {
+        if ($this->request->isPost()) {
             $params = $this->request->post("row/a");
-            if ($params)
-            {
+            if ($params) {
                 $row->save($params);
                 $this->success();
             }
@@ -55,18 +53,14 @@ class Autoreply extends Backend
         $row = $this->request->post("row/a");
         $except = $this->request->post("except");
         $text = isset($row['text']) ? $row['text'] : '';
-        if ($this->model->where('text', $text)->where(function($query) use($except) {
-                    if ($except)
-                    {
-                        $query->where('text', '<>', $except);
-                    }
-                })->count() == 0)
-        {
-            return json(['ok' => '']);
-        }
-        else
-        {
-            return json(['error' => __('Text already exists')]);
+        if ($this->model->where('text', $text)->where(function ($query) use ($except) {
+                if ($except) {
+                    $query->where('text', '<>', $except);
+                }
+            })->count() == 0) {
+            $this->success();
+        } else {
+            $this->error(__('Text already exists'));
         }
     }
 

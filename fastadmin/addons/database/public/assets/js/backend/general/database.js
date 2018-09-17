@@ -1,7 +1,19 @@
-define(['jquery', 'bootstrap', 'backend'], function ($, undefined, Backend) {
+define(['jquery', 'bootstrap', 'backend', 'template'], function ($, undefined, Backend, Template) {
 
     var Controller = {
         index: function () {
+
+            //如果有备份权限
+            if ($("#backuplist").size() > 0) {
+                Fast.api.ajax({
+                    url: "general/database/backuplist",
+                    type: 'get'
+                }, function (data) {
+                    $("#backuplist").html(Template("backuptpl", {backuplist: data.backuplist}));
+                    return false;
+                });
+                return false;
+            }
 
             //禁止在操作select元素时关闭dropdown的关闭事件
             $("#database").on('click', '.dropdown-menu input, .dropdown-menu label, .dropdown-menu select', function (e) {
@@ -31,6 +43,70 @@ define(['jquery', 'bootstrap', 'backend'], function ($, undefined, Backend) {
             if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
                 $("#resultparent").css({"-webkit-overflow-scrolling": "touch", "overflow": "auto"});
             }
+
+            $(document).on("click", ".btn-compress", function () {
+                Fast.api.ajax({
+                    url: "general/database/backuplist",
+                    type: 'get'
+                }, function (data) {
+                    Layer.open({
+                        area: ["680px", "500px"],
+                        btn: [],
+                        title: "备份与还原",
+                        content: Template("backuptpl", {backuplist: data.backuplist})
+                    });
+                    return false;
+                });
+                return false;
+            });
+
+            $(document).on("click", ".btn-backup", function () {
+                Fast.api.ajax({
+                    url: "general/database/backup",
+                    data: {action: 'backup'}
+                }, function (data) {
+                    Layer.closeAll();
+                    $(".btn-compress").trigger("click");
+                });
+            });
+
+            $(document).on("click", ".btn-restore", function () {
+                var that = this;
+                Layer.confirm("确定恢复备份？<br><font color='red'>建议先备份当前数据后再进行恢复操作！！！</font><br><font color='red'>当前数据库将被清空覆盖，请谨慎操作！！！</font>", {
+                    type: 5,
+                    skin: 'layui-layer-dialog layui-layer-fast'
+                }, function (index) {
+                    Fast.api.ajax({
+                        url: "general/database/restore",
+                        data: {action: 'restore', file: $(that).data('file')}
+                    }, function (data) {
+                        Layer.closeAll();
+                        Fast.api.ajax({
+                            url: 'ajax/wipecache',
+                            data: {type: 'all'},
+                        }, function () {
+                            Layer.alert("备份恢复成功,点击确定将刷新页面", function () {
+                                top.location.reload();
+                            });
+                            return false;
+                        });
+
+                    });
+                });
+            });
+
+            $(document).on("click", ".btn-delete", function () {
+                var that = this;
+                Layer.confirm("确定删除备份？", {type: 5, skin: 'layui-layer-dialog layui-layer-fast'}, function (index) {
+                    Fast.api.ajax({
+                        url: "general/database/restore",
+                        data: {action: 'delete', file: $(that).data('file')}
+                    }, function (data) {
+                        Layer.closeAll();
+                        $(".btn-compress").trigger("click");
+                    });
+                });
+            });
 
             $(window).resize();
         }

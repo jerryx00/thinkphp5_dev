@@ -14,13 +14,14 @@ class {%controllerName%} extends Backend
     
     /**
      * {%modelName%}模型对象
+     * @var \{%modelNamespace%}\{%modelName%}
      */
     protected $model = null;
 
     public function _initialize()
     {
         parent::_initialize();
-        $this->model = model('{%modelName%}');
+        $this->model = new \{%modelNamespace%}\{%modelName%};
 {%controllerAssignList%}
     }
     

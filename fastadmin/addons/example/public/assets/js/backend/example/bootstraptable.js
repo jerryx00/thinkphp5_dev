@@ -39,6 +39,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
             table.on('load-success.bs.table', function (e, data) {
                 //这里可以获取从服务端获取的JSON数据
                 console.log(data);
+                //这里我们手动设置底部的值
+                $("#money").text(data.extend.money);
+                $("#price").text(data.extend.price);
             });
 
             // 初始化表格
@@ -48,14 +51,61 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 columns: [
                     [
-                        //这里两列colspan的值加起来必须等级下方字段的总数量
-                        {title: '标题一', colspan: 5},
-                        {title: '标题二', colspan: 6},
-                        //我们向操作栏额外添加上一个详情按钮,并保留已有的编辑和删除控制
+                        //更多配置参数可参考http://bootstrap-table.wenzhixin.net.cn/zh-cn/documentation/#c
+                        //该列为复选框字段,如果后台的返回state值将会默认选中
+                        {field: 'state', checkbox: true,},
+                        //sortable为是否排序,operate为搜索时的操作符,visible表示是否可见
+                        {field: 'id', title: 'ID', sortable: true, operate: false},
+                        //默认隐藏该列
+                        {field: 'admin_id', title: __('管理员'), operate: false},
+                        //直接响应搜索
+                        {field: 'username', title: __('管理员'), formatter: Table.api.formatter.search},
+                        //模糊搜索
+                        {field: 'title', title: __('Title'), operate: 'LIKE %...%', placeholder: '模糊搜索，*表示任意字符'},
+                        //通过Ajax渲染searchList，也可以使用JSON数据
+                        {
+                            field: 'url',
+                            title: __('Url'),
+                            align: 'left',
+                            searchList: $.getJSON('example/bootstraptable/searchlist?search=a&field=row[user_id]'),
+                            formatter: Controller.api.formatter.url
+                        },
+                        //点击IP时同时执行搜索此IP
+                        {
+                            field: 'ip',
+                            title: __('IP'),
+                            events: Controller.api.events.ip,
+                            formatter: Controller.api.formatter.ip
+                        },
+                        //自定义栏位,custom是不存在的字段
+                        {field: 'custom', title: __('切换'), operate: false, formatter: Controller.api.formatter.custom},
+                        //browser是一个不存在的字段
+                        //通过formatter来渲染数据,同时为它添加上事件
+                        {
+                            field: 'browser',
+                            title: __('Browser'),
+                            operate: false,
+                            events: Controller.api.events.browser,
+                            formatter: Controller.api.formatter.browser
+                        },
+                        {
+                            field: 'admin_id', title: __('联动搜索'), searchList: function (column) {
+                                return Template('categorytpl', {});
+                            }
+                        },
+                        //启用时间段搜索
+                        {
+                            field: 'createtime',
+                            title: __('Update time'),
+                            sortable: true,
+                            formatter: Table.api.formatter.datetime,
+                            operate: 'RANGE',
+                            addclass: 'datetimerange'
+                        },
+                        //操作栏,默认有编辑、删除或排序按钮,可自定义配置buttons来扩展按钮
                         {
                             field: 'operate',
                             width: "120px",
-                            rowspan: 2,
                             title: __('Operate'),
                             table: table,
                             events: Table.api.events.operate,
@@ -98,59 +148,6 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                             formatter: Table.api.formatter.operate
                         },
                     ],
-                    [
-                        //如果表格页头只需要一行，这里只需要配置一个数组即可
-                        //更多配置参数可参考http://bootstrap-table.wenzhixin.net.cn/zh-cn/documentation/#c
-                        //该列为复选框字段,如果后台的返回state值将会默认选中
-                        {field: 'state', checkbox: true,},
-                        {field: 'id', title: 'ID', sortable: true, operate: false},
-                        //默认隐藏该列
-                        {field: 'admin_id', title: __('管理员'), operate: false},
-                        //直接响应搜索
-                        {field: 'username', title: __('管理员'), formatter: Table.api.formatter.search},
-                        //模糊搜索
-                        {field: 'id', title: __('Title'), operate: 'LIKE %...%', placeholder: '模糊搜索，*表示任意字符'},
-                        //通过Ajax渲染searchList，也可以使用JSON数据
-                        {
-                            field: 'url',
-                            title: __('Url'),
-                            align: 'left',
-                            searchList: $.getJSON('example/bootstraptable/searchlist?search=a&field=row[user_id]'),
-                            formatter: Controller.api.formatter.url
-                        },
-                        //点击IP时同时执行搜索此IP
-                        {
-                            field: 'ip',
-                            title: __('IP'),
-                            events: Controller.api.events.ip,
-                            formatter: Controller.api.formatter.ip
-                        },
-                        //自定义栏位
-                        {field: 'custom', title: __('切换'), operate: false, formatter: Controller.api.formatter.custom},
-                        //browser是一个不存在的字段
-                        //通过formatter来渲染数据,同时为它添加上事件
-                        {
-                            field: 'browser',
-                            title: __('Browser'),
-                            operate: false,
-                            events: Controller.api.events.browser,
-                            formatter: Controller.api.formatter.browser
-                        },
-                        {
-                            field: 'admin_id', title: __('联动搜索'), searchList: function (column) {
-                                return Template('categorytpl', {});
-                            }
-                        },
-                        //启用时间段搜索
-                        {
-                            field: 'createtime',
-                            title: __('Update time'),
-                            sortable: true,
-                            formatter: Table.api.formatter.datetime,
-                            operate: 'RANGE',
-                            addclass: 'datetimerange'
-                        },
-                    ],
                 ],
                 //更多配置参数可参考http://bootstrap-table.wenzhixin.net.cn/zh-cn/documentation/#t
                 //亦可以参考require-table.js中defaults的配置
@@ -187,7 +184,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                 var queryParams = options.queryParams;
                 options.pageNumber = 1;
                 options.queryParams = function (params) {
-                    //这一行必须要存在,否则会丢失搜索栏数据
+                    //这一行必须要存在,否则在点击下一页时会丢失搜索栏数据
                     params = queryParams(params);
 
                     //如果希望追加搜索条件,可使用

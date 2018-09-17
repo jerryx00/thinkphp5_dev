@@ -4,28 +4,9 @@ return array (
   'autoload' => false,
   'hooks' => 
   array (
-    'sms_send' => 
+    'app_init' => 
     array (
-      0 => 'alisms',
-      1 => 'clsms',
-    ),
-    'sms_notice' => 
-    array (
-      0 => 'alisms',
-      1 => 'clsms',
-    ),
-    'sms_check' => 
-    array (
-      0 => 'alisms',
-      1 => 'clsms',
-    ),
-    'login_init' => 
-    array (
-      0 => 'loginbg',
-    ),
-    'upload_after' => 
-    array (
-      0 => 'thumb',
+      0 => 'epay',
     ),
   ),
   'route' => 
@@ -36,8 +17,5 @@ return array (
     '/example/d2/[:name]' => 'example/demo/demo2',
     '/qrcode$' => 'qrcode/index/index',
     '/qrcode/build$' => 'qrcode/index/build',
-    '/third$' => 'third/index/index',
-    '/third/connect/[:platform]' => 'third/index/connect',
-    '/third/callback/[:platform]' => 'third/index/callback',
   ),
 );

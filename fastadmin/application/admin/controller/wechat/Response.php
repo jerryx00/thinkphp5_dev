@@ -35,14 +35,12 @@ class Response extends Backend
      */
     public function add()
     {
-        if ($this->request->isPost())
-        {
+        if ($this->request->isPost()) {
             $params = $this->request->post("row/a");
             $params['eventkey'] = isset($params['eventkey']) && $params['eventkey'] ? $params['eventkey'] : uniqid();
             $params['content'] = json_encode($params['content']);
             $params['createtime'] = time();
-            if ($params)
-            {
+            if ($params) {
                 $this->model->save($params);
                 $this->success();
                 $this->content = $params;
@@ -62,13 +60,11 @@ class Response extends Backend
         $row = $this->model->get($ids);
         if (!$row)
             $this->error(__('No Results were found'));
-        if ($this->request->isPost())
-        {
+        if ($this->request->isPost()) {
             $params = $this->request->post("row/a");
             $params['eventkey'] = isset($params['eventkey']) && $params['eventkey'] ? $params['eventkey'] : uniqid();
             $params['content'] = json_encode($params['content']);
-            if ($params)
-            {
+            if ($params) {
                 $row->save($params);
                 $this->success();
             }

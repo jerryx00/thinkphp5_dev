@@ -13,11 +13,13 @@ use fast\Tree;
 class Rule extends Backend
 {
 
+
     /**
-     * UserRule模型对象
+     * @var \app\admin\model\UserRule
      */
     protected $model = null;
     protected $rulelist = [];
+    protected $multiFields = 'ismenu,status';
 
     public function _initialize()
     {

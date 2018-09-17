@@ -39,10 +39,10 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                     },
                     valid: function (ret) {
                         var that = this, submitBtn = $(".layer-footer [type=submit]", form);
-                        that.holdSubmit();
-                        $(".layer-footer [type=submit]", form).addClass("disabled");
+                        that.holdSubmit(true);
+                        submitBtn.addClass("disabled");
                         //验证通过提交表单
-                        Form.api.submit($(ret), function (data, ret) {
+                        var submitResult = Form.api.submit($(ret), function (data, ret) {
                             that.holdSubmit(false);
                             submitBtn.removeClass("disabled");
                             if (false === $(this).triggerHandler("success.form", [data, ret])) {
@@ -72,6 +72,11 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                                 }
                             }
                         }, submit);
+                        //如果提交失败则释放锁定
+                        if (!submitResult) {
+                            that.holdSubmit(false);
+                            submitBtn.removeClass("disabled");
+                        }
                         return false;
                     }
                 }, form.data("validator-options") || {}));
@@ -182,7 +187,7 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                             ranges: ranges,
                         };
                         var origincallback = function (start, end) {
-                            $(this.element).val(start.format(options.locale.format) + " - " + end.format(options.locale.format));
+                            $(this.element).val(start.format(this.locale.format) + " - " + end.format(this.locale.format));
                             $(this.element).trigger('blur');
                         };
                         $(".datetimerange", form).each(function () {
@@ -255,7 +260,6 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                             var textarea = $("textarea[name='" + name + "']", form);
                             var container = textarea.closest("dl");
                             var template = container.data("template");
-                            console.log(name, container);
                             $.each($("input,select", container).serializeArray(), function (i, j) {
                                 var reg = /\[(\w+)\]\[(\w+)\]$/g;
                                 var match = reg.exec(j.name);
@@ -338,20 +342,44 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                     });
                 }
             },
+            switcher: function (form) {
+                form.on("click", "[data-toggle='switcher']", function () {
+                    if ($(this).hasClass("disabled")) {
+                        return false;
+                    }
+                    var input = $(this).prev("input");
+                    input = $(this).data("input-id") ? $("#" + $(this).data("input-id")) : input;
+                    if (input.size() > 0) {
+                        var yes = $(this).data("yes");
+                        var no = $(this).data("no");
+                        if (input.val() == yes) {
+                            input.val(no);
+                            $("i", this).addClass("fa-flip-horizontal text-gray");
+                        } else {
+                            input.val(yes);
+                            $("i", this).removeClass("fa-flip-horizontal text-gray");
+                        }
+                        input.trigger('change');
+                    }
+                    return false;
+                });
+            },
             bindevent: function (form) {
 
             }
         },
         api: {
             submit: function (form, success, error, submit) {
-                if (form.size() === 0)
-                    return Toastr.error("表单未初始化完成,无法提交");
+                if (form.size() === 0) {
+                    Toastr.error("表单未初始化完成,无法提交");
+                    return false;
+                }
                 if (typeof submit === 'function') {
-                    if (false === submit.call(form)) {
+                    if (false === submit.call(form, success, error)) {
                         return false;
                     }
                 }
-                var type = form.attr("method").toUpperCase();
+                var type = form.attr("method") ? form.attr("method").toUpperCase() : 'GET';
                 type = type && (type === 'GET' || type === 'POST') ? type : 'GET';
                 url = form.attr("action");
                 url = url ? url : location.href;
@@ -407,7 +435,7 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                         }
                     }
                 });
-                return false;
+                return true;
             },
             bindevent: function (form, success, error, submit) {
 
@@ -436,6 +464,8 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                 events.faselect(form);
 
                 events.fieldlist(form);
+
+                events.switcher(form);
             },
             custom: {}
         },

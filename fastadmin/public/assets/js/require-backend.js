@@ -1,10 +1,10 @@
 require.config({
     urlArgs: "v=" + requirejs.s.contexts._.config.config.site.version,
     packages: [{
-            name: 'moment',
-            location: '../libs/moment',
-            main: 'moment'
-        }
+        name: 'moment',
+        location: '../libs/moment',
+        main: 'moment'
+    }
     ],
     //在打包压缩时将会把include中的模块合并到主文件中
     include: ['css', 'layer', 'toastr', 'fast', 'backend', 'backend-init', 'table', 'form', 'dragsort', 'drag', 'drop', 'addtabs', 'selectpage'],
@@ -43,13 +43,13 @@ require.config({
         'plupload': '../libs/plupload/js/plupload.min',
         'toastr': '../libs/toastr/toastr',
         'jstree': '../libs/jstree/dist/jstree.min',
-        'layer': '../libs/layer/dist/layer',
+        'layer': '../libs/fastadmin-layer/dist/layer',
         'cookie': '../libs/jquery.cookie/jquery.cookie',
         'cxselect': '../libs/fastadmin-cxselect/js/jquery.cxselect',
         'template': '../libs/art-template/dist/template-native',
         'selectpage': '../libs/fastadmin-selectpage/selectpage',
-        'citypicker': '../libs/city-picker/dist/js/city-picker.min',
-        'citypicker-data': '../libs/city-picker/dist/js/city-picker.data',
+        'citypicker': '../libs/fastadmin-citypicker/dist/js/city-picker.min',
+        'citypicker-data': '../libs/fastadmin-citypicker/dist/js/city-picker.data',
     },
     // shim依赖配置
     shim: {
@@ -102,19 +102,19 @@ require.config({
             'moment/locale/zh-cn',
 //            'css!../libs/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
         ],
-        'bootstrap-select': ['css!../libs/bootstrap-select/dist/css/bootstrap-select.min.css', ],
+//        'bootstrap-select': ['css!../libs/bootstrap-select/dist/css/bootstrap-select.min.css',],
         'bootstrap-select-lang': ['bootstrap-select'],
 //        'toastr': ['css!../libs/toastr/toastr.min.css'],
-        'jstree': ['css!../libs/jstree/dist/themes/default/style.css', ],
+        'jstree': ['css!../libs/jstree/dist/themes/default/style.css',],
         'plupload': {
             deps: ['../libs/plupload/js/moxie.min'],
             exports: "plupload"
         },
-//        'layer': ['css!../libs/layer/dist/theme/default/layer.css'],
+//        'layer': ['css!../libs/fastadmin-layer/dist/theme/default/layer.css'],
 //        'validator-core': ['css!../libs/nice-validator/dist/jquery.validator.css'],
         'validator-lang': ['validator-core'],
 //        'selectpage': ['css!../libs/fastadmin-selectpage/selectpage.css'],
-        'citypicker': ['citypicker-data', 'css!../libs/city-picker/dist/css/city-picker.css']
+        'citypicker': ['citypicker-data', 'css!../libs/fastadmin-citypicker/dist/css/city-picker.css']
     },
     baseUrl: requirejs.s.contexts._.config.config.site.cdnurl + '/assets/js/', //资源基础路径
     map: {

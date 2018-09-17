@@ -14,8 +14,9 @@ class User extends Backend
 
     protected $relationSearch = true;
 
+
     /**
-     * User模型对象
+     * @var \app\admin\model\User
      */
     protected $model = null;
 
@@ -53,8 +54,7 @@ class User extends Backend
                     ->select();
             foreach ($list as $k => $v)
             {
-                $v->password = '';
-                $v->salt = '';
+                $v->hidden(['password', 'salt']);
             }
             $result = array("total" => $total, "rows" => $list);
 

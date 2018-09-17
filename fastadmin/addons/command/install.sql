@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS `__PREFIX__command`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `type` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '类型',
-  `params` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '参数',
-  `command` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '命令',
-  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '返回结果',
+  `params` varchar(1500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '参数',
+  `command` varchar(1500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '命令',
+  `content` text COMMENT '返回结果',
   `executetime` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '执行时间',
   `createtime` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建时间',
   `updatetime` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新时间',

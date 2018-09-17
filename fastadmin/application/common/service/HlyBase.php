@@ -12,18 +12,31 @@ class HlyBase
         $data = [];
         $data['code'] = $result;
         $data['resp'] = $returnContent;
-    
+
         return $data;
     }
-    
-    public function revert($ret) {
-        //将xml转成array  
-        $result = (array)simplexml_load_string($ret['resp']);
+
+  //  public function revert($ret) {
+//        //将xml转成array  
+//        $result = (array)simplexml_load_string($ret['resp']);
+//
+//        $data = [];
+//        $data['code'] = $ret['code'];
+//        $data['resp'] = object_array($result);         
+//
+//        return $data;
+//    }
+//
+    public function revertXml($result, $returnContent) {
+        /**
+        $xml="<?xml version='1.0' encoding='UTF-8'?>";
+        $xml.= $returnContent;
+        */
         
-        $data['code'] = $ret['code'];
-        $data['resp'] = object_array($result);         
-    
+        $data['code'] = $result;
+        $data['resp'] = $returnContent;
         return $data;
     }
+
 
 }

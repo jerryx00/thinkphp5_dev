@@ -30,12 +30,11 @@ class Menu extends Backend
     {
         $responselist = array();
         $all = WechatResponse::all();
-        foreach ($all as $k => $v)
-        {
+        foreach ($all as $k => $v) {
             $responselist[$v['eventkey']] = $v['title'];
         }
         $this->view->assign('responselist', $responselist);
-        $this->view->assign('menu', (array) json_decode($this->wechatcfg->value, TRUE));
+        $this->view->assign('menu', (array)json_decode($this->wechatcfg->value, TRUE));
         return $this->view->fetch();
     }
 
@@ -45,7 +44,7 @@ class Menu extends Backend
     public function edit($ids = NULL)
     {
         $menu = $this->request->post("menu");
-        $menu = (array) json_decode($menu, TRUE);
+        $menu = (array)json_decode($menu, TRUE);
         $this->wechatcfg->value = json_encode($menu, JSON_UNESCAPED_UNICODE);
         $this->wechatcfg->save();
         $this->success();
@@ -57,48 +56,33 @@ class Menu extends Backend
     public function sync($ids = NULL)
     {
         $app = new Application(get_addon_config('wechat'));
-        try
-        {
+        try {
             $hasError = false;
             $menu = json_decode($this->wechatcfg->value, TRUE);
-            foreach ($menu as $k => $v)
-            {
-                if (isset($v['sub_button']))
-                {
-                    foreach ($v['sub_button'] as $m => $n)
-                    {
-                        if (isset($n['key']) && !$n['key'])
-                        {
+            foreach ($menu as $k => $v) {
+                if (isset($v['sub_button'])) {
+                    foreach ($v['sub_button'] as $m => $n) {
+                        if (isset($n['key']) && !$n['key']) {
                             $hasError = true;
                             break 2;
                         }
                     }
-                }
-                else if (isset($v['key']) && !$v['key'])
-                {
+                } else if (isset($v['key']) && !$v['key']) {
                     $hasError = true;
                     break;
                 }
             }
-            if (!$hasError)
-            {
+            if (!$hasError) {
                 $ret = $app->menu->add($menu);
-                if ($ret->errcode == 0)
-                {
+                if ($ret->errcode == 0) {
                     $this->success();
-                }
-                else
-                {
+                } else {
                     $this->error($ret->errmsg);
                 }
-            }
-            else
-            {
+            } else {
                 $this->error(__('Invalid parameters'));
             }
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $this->error($e->getMessage());
         }
     }

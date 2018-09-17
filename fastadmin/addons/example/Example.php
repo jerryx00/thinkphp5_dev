@@ -20,7 +20,7 @@ class Example extends Addons
         $menu = [
             [
                 'name'    => 'example',
-                'title'   => '示例管理',
+                'title'   => '开发示例管理',
                 'icon'    => 'fa fa-magic',
                 'sublist' => [
                     [

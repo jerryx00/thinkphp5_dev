@@ -62,8 +62,9 @@ Library | Version
 [jQuery](https://github.com/jquery/jquery) | >= 1.9.1
 [FileSaver](https://github.com/hhurz/tableExport.jquery.plugin/blob/master/libs/FileSaver/FileSaver.min.js) | >= 1.2.0
 [html2canvas](https://github.com/niklasvh/html2canvas) | >= 0.5.0-beta4
-[jsPDF](https://github.com/MrRio/jsPDF) | 1.1.239 or 1.3.2
+[jsPDF](https://github.com/MrRio/jsPDF) | 1.3.2 - 1.3.4
 [jsPDF-AutoTable](https://github.com/simonbengtsson/jsPDF-AutoTable) | 2.0.14 or 2.0.17
+[SheetJS](https://github.com/SheetJS/js-xlsx) | >= 0.12.5
 
 
 
@@ -87,8 +88,8 @@ $('#tableID').tableExport({type:'excel'});
 // XML Spreadsheet 2003 file format with multiple worksheet support
 
 $('table').tableExport({type:'excel',
-                        excelFileFormat:'xmlss',
-                        worksheetName: ['Table 1','Table 2', 'Table 3']});
+                        mso: {fileFormat:'xmlss',
+                              worksheetName: ['Table 1','Table 2', 'Table 3']}});
 ```
 
 ```
@@ -136,15 +137,11 @@ Options (Default settings)
 =======
 
 ```
-consoleLog: false
 csvEnclosure: '"'
 csvSeparator: ','
 csvUseBOM: true
 displayTableName: false
 escape: false
-excelRTL: false
-excelstyles: []
-excelFileFormat: 'xlshtml'
 exportHiddenCells: false
 fileName: 'tableExport'
 htmlContent: false
@@ -179,6 +176,14 @@ jspdf: orientation: 'p'
                                onAutotableText: null
                                onTable: null
                                outputImages: true
+maxNestedTables: 1
+mso: fileFormat: 'xlshtml'
+     onMsoNumberFormat: null
+     pageFormat: 'a4'
+     pageOrientation: 'portrait'
+     rtl: false
+     styles: []
+     worksheetName: ''
 numbers: html: decimalMark: '.'
                thousandsSeparator: ','
          output: decimalMark: '.',
@@ -186,7 +191,6 @@ numbers: html: decimalMark: '.'
 onCellData: null
 onCellHtmlData: null
 onIgnoreRow: null
-onMsoNumberFormat: null
 outputMode: 'file'
 pdfmake: enabled: false
          docDefinition: pageOrientation: 'portrait'
@@ -197,7 +201,6 @@ tfootSelector: 'tr'
 theadSelector: 'tr'
 tableName: 'myTableName'
 type: 'csv'
-worksheetName: 'WorksheetName'
 ```
 
 ```ignoreColumn``` can be either an array of indexes (i.e. [0, 2]) or field names (i.e. ["id", "name"]).
@@ -207,11 +210,11 @@ worksheetName: 'WorksheetName'
 
 To disable formatting of numbers in the exported output, which can be useful for csv and excel format, set the option ``` numbers: output ``` to ``` false ```.
 
-Set the option ``` excelFileFormat ``` to ``` 'xmlss' ``` if you want to export in XML Spreadsheet 2003 file format. Use this format if multiple tables should be exported into a single file. Excel 2000 html format is the default excel file format which has better support of exporting table styles.
+Set the option ``` mso.fileFormat ``` to ``` 'xmlss' ``` if you want to export in XML Spreadsheet 2003 file format. Use this format if multiple tables should be exported into a single file. Excel 2000 html format is the default excel file format which has better support of exporting table styles.
 
-The ``` excelstyles ``` option lets you define the css attributes of the original html table cells, that should be taken over when exporting to an excel worksheet (Excel 2000 html format only).
+The ``` mso.styles ``` option lets you define the css attributes of the original html table cells, that should be taken over when exporting to an excel worksheet (Excel 2000 html format only).
 
-To export in XSLX format [protobi/js-xlsx](https://github.com/protobi/js-xlsx) forked from [SheetJS/js-xlsx](https://github.com/SheetJS/js-xlsx) is used. Please note that the implementation of this format type lets you only export table data, but not any styling information of the html table.
+To export in XSLX format [SheetJS/js-xlsx](https://github.com/SheetJS/js-xlsx) is used. Please note that the implementation of this format type lets you only export table data, but not any styling information of the html table.
 
 For jspdf options see the documentation of [jsPDF](https://github.com/MrRio/jsPDF) and [jsPDF-AutoTable](https://github.com/simonbengtsson/jsPDF-AutoTable) resp.
 
@@ -279,3 +282,10 @@ Optional html data attributes
 
 <td data-tableexport-value="export content">content</td> -> "export content" instead of "content" will be exported
 ```
+
+Excel Notes
+===========
+
+When exporting in Excel 2000 html format (xlshtml) the default extension of the result file is XLS although the type of the file content is HTML. When you open a file in Microsoft Office Excel 2007 or later that contains content that does not match the files extension, you receive the following warning message:
+```The file you are trying to open, 'name.ext', is in a different format than specified by the file extension. Verify that the file is not corrupted and is from a trusted source before opening the file. Do you want to open the file now?```
+According to this [Knowledge base article](https://support.microsoft.com/en-us/help/948615/error-opening-file-the-file-format-differs-from-the-format-that-the-fi) The warning message can help prevent unexpected problems that might occur because of possible incompatibility between the actual content of the file and the file name extension. The article also gives you some hints to disable the warning message.
