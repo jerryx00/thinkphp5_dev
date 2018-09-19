@@ -6,10 +6,10 @@ use think\Db;
 use think\Request;
 use think\Response;
 
-class Hk {
+class Hk {  
 
     public function getFitmod($str) {
-        $mobile = "%";
+        $mobile = "%"; 
         if(trim($str) == "" || trim($str) == "%" || trim($str) == "?"){
             $mobile = "%";     //%匹配所有
         } else if (!$pos) {
@@ -46,7 +46,7 @@ class Hk {
                     $mobile = $f.$mid.$e;
                 }
             }
-        }
+        }        
 
         return $mobile;
     }
@@ -56,7 +56,7 @@ class Hk {
         $xmldata['Datetime'] = $time;
         $xmldata[$content] = $d;
         $paras = xml_encode($xmldata, 'Request');
-        unset($xmldata);
+
 
         $tokenAndsign['token'] = '1';
         $tokenAndsign['sign'] = '2';

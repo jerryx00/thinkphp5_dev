@@ -2,7 +2,7 @@
 
 namespace app\admin\controller\qw;
 
-use app\common\controller\Backend;
+use app\common\controller\Backend; 
 use app\common\service\Hk;
 
 /**
@@ -20,7 +20,7 @@ class HlycardBase extends Backend
     protected $model = null;
 
 
-    protected function callService($url, $params, $content='Content', $flag='1') {
+    protected function callService($url, $params, $content='', $flag='1') {
         $lservice = \think\Loader::model('Hk','service');
         //        * 调用方法
         $ret = [];

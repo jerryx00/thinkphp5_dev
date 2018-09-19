@@ -174,7 +174,7 @@ if (!function_exists('http_post_hk')) {
 		if ($signatrue != '') {
 			$header = ["Content-type: application/xml", "4GGOGO-Auth-Token: " . $token, "HTTP-X-4GGOGO-Signature: " . $signatrue];
 		}
-		trace($url . '->' .$requestXML,'error');
+        trace($url . '->' .$requestXML,'error');
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -216,8 +216,8 @@ if (!function_exists('getDataFromXml')) {
 	function getDataFromXml($xml=[], $node = ''){
 		$ret = [];
 		if (strpos($xml, '<html>') !== false ) {
-			$ret['Response']['ReturnCode'] ='';
-			$ret['Response']['ReturnMessage'] ='403 Forbidden';
+            $ret['Response']['ReturnCode'] ='';
+            $ret['Response']['ReturnMessage'] ='403 Forbidden';
 		} else {
 			$ret = (array)simplexml_load_string($xml);
 			//dump($xml);exit;
@@ -239,26 +239,6 @@ if (!function_exists('toDate')) {
 		}
 		$format = str_replace ( '#', ':', $format );
 		return date ($format, $time );
-	}
-}
-
-/**
-* PHP要用json的数据，通过json_decode转出来的数组并不是标准的array，
-* 所以需要用这个函数进行转换。
-* @param mixed $array
-* @return []
-*/
-if (!function_exists('object_array')) {
-	function object_array($array){
-		if(is_object($array)){
-			$array = (array)$array;
-		}
-		if(is_array($array)){
-			foreach($array as $key=>$value){
-				$array[$key] = object_array($value);
-			}
-		}
-		return $array;
 	}
 }
 

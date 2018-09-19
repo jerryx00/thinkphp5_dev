@@ -51,7 +51,7 @@ class Hkauth extends HlyApi
 	public function getNum() {
 		$sign = input('sign');
 		$token = input('token');
-//				dump($sign);
+				dump($sign);
 		//		dump($token);exit;
 		$info = $this->getRaw();
 

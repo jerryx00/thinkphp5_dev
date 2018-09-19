@@ -95,8 +95,6 @@ class HlyXml extends HlyBase{
 		$url = config('HLY_GETNUM_URL');
 
 		$req = isset($xmldataArr['Request']) ?$xmldataArr['Request'] : '';
-
-
 		$paras = xml_encode($req, 'Request');
 
 		//        dump($paras);
