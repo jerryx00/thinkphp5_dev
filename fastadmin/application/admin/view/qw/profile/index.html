@@ -1,0 +1,94 @@
+<style>
+    .profile-avatar-container {
+        position:relative;
+        width:100px;margin:0 auto;
+    }
+    .profile-avatar-container .profile-user-img{
+        width:100px;
+        height:100px;
+    }
+    
+    .profile-avatar-container .profile-user-img_f{
+        width:100px;
+        height:100px;
+    }
+    .profile-avatar-container .profile-avatar-text {
+        display:none;
+    }
+    .profile-avatar-container:hover .profile-avatar-text {
+        display:block;
+        position:absolute;
+        height:100px;
+        width:100px;
+        background:#444;
+        opacity: .6;
+        color: #fff;
+        top:0;
+        left:0;
+        line-height: 100px;
+        text-align: center;
+    }
+    .profile-avatar-container button{
+        position:absolute;
+        top:0;left:0;width:100px;height:100px;opacity: 0;
+    }
+</style>
+<div class="row animated fadeInRight">
+    <div">
+     <form id="update-form" role="form" data-toggle="validator" method="POST" action="{:url('qw.profile/update')}">
+        <div class="box box-success">
+            <div class="panel-heading">
+                {:__('身份证正面上传')}
+            </div>
+            <div class="panel-body">
+             
+               
+                   
+                    <input type="hidden" id="c-id" name="row[id]" value="{$vo['id']}" />
+                    <div class="box-body box-profile">
+                        
+                        <div class="profile-avatar-container">
+                            <img class="profile-user-img img-responsive img-circle plupload" src="__CDN__{$admin.avatar}" alt="">
+                            <div class="profile-avatar-text img-circle">{:__('点击上传')}</div>
+                            <button id="plupload-avatar" class="plupload" data-input-id="c-avatar"><i class="fa fa-upload"></i> {:__('上传')}</button>
+                        </div> 
+                    </div>
+            
+            </div>
+        </div>
+        
+         <div class="box box-success">
+            <div class="panel-heading">
+                {:__('身份证反面上传')}
+            </div>
+            <div class="panel-body">
+
+                    <div class="box-body box-profile">
+                       
+                        <div class="profile-avatar-container">
+                            <img class="profile-user-img_f img-responsive img-circle plupload" src="__CDN__{$admin.avatar}" alt="">
+                            <div class="profile-avatar-text img-circle">{:__('点击上传')}</div>
+                            <button id="plupload-avatar_f" class="plupload" data-input-id="c-avatar1"><i class="fa fa-upload"></i> {:__('上传')}</button>
+                        </div>
+                                                  
+                    </div>
+              
+            </div>
+        </div>
+         <div class="box box-success">
+         
+            <div class="panel-body">
+
+                    <div class="box-body box-profile">                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">{:__('Submit')}</button>
+                            <button type="reset" class="btn btn-default">{:__('Reset')}</button>
+                        </div>
+
+                    </div>
+                
+            </div>
+        </div>
+
+    </div>  
+</div>
