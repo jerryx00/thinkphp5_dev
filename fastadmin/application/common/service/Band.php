@@ -37,7 +37,6 @@ class Band {
 		$xmldata['Datetime'] = $time;
 		$xmldata['Content'] = $d;
 		$paras = xml_encode($xmldata, 'Request');
-        \think\Log::ERROR($url.'-->'.$paras);
 
 		$tokenAndsign['token'] = '1';
 		$tokenAndsign['sign'] = '2';
