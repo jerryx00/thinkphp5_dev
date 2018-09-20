@@ -123,8 +123,7 @@ class Hkauth extends HlyApi
 		//        * 调用方法
 		$ret = [];
 
-		$url = config('HLY_UNLOCK_URL');
-		$ret = $lservice->general($info, $url);
+		$ret = $lservice->general($info, 'unLockNum');
 
 		//                dump($ret);exit;
 		$this->resultXml($ret);

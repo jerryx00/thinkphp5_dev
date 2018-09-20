@@ -63,12 +63,12 @@ class HlyXml extends HlyBase{
 
 		$paras = xml_encode($xmldata, 'Request');
 
-//		$url = 'getToken';
-		list($result, $returnContent) = http_post_hk($url, $paras, '', '');
+		//		$url = 'getToken';
+		list($result, $returnContent) = http_post_hk('getToken', $paras, '', '');
 		//dump($xmldata);
-//		dump($url);
-//		dump($result);
-//		dump($returnContent);exit;
+		//		dump($url);
+		//		dump($result);
+		//		dump($returnContent);exit;
 		$xml = getDataFromXml($returnContent);
 		//          dump($xml);exit;
 		$data['code'] = $result;
@@ -79,10 +79,14 @@ class HlyXml extends HlyBase{
 		return $data;
 	}
 
-	public function getToken(){
+	public function getToken($flag='1'){
 		$ret = $this->getTokenResponse();
 		//        dump($ret);
-		$token =  isset($ret['resp']['Authorization']['Token'])?$ret['resp']['Authorization']['Token']:'';
+		if ($flag == '1') {
+			$token =  isset($ret['resp']['Response']['Authorization']['Token'])?$ret['resp']['Response']['Authorization']['Token']:'';
+		} else {
+           $token =  isset($ret['resp']['Authorization']['Token'])?$ret['resp']['Authorization']['Token']:'';
+		}
 		return $token;
 
 	}
@@ -142,7 +146,7 @@ class HlyXml extends HlyBase{
 	* @param mixed $xml
 	*/
 	private function getSign($xmlArray, $useXmlTime=true){
-//		\think\Log::DEBUG('$xmlArray');
+		//		\think\Log::DEBUG('$xmlArray');
 		$time = '';
 		if (!$useXmlTime) {
 			$time = getMillisecond();
