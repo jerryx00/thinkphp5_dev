@@ -28,7 +28,7 @@ class Index extends Backend
      * 后台首页
      */
     public function index()
-    {       
+    {
         //左侧菜单
         list($menulist, $navlist, $fixedmenu, $referermenu) = $this->auth->getSidebar([
             'dashboard' => 'hot',

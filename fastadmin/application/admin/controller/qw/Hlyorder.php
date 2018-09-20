@@ -224,12 +224,8 @@ class Hlyorder extends HlycardBase
     }
 
     public function order(){
-        $params = input('param.');
-        $id = isset($params['id']) ? $params['id'] :'';
         $this->view->assign("regionList", $this->model->getRegion());
-        $vonum = $this->model->getNumFromDb($params);
-        $this->view->assign("vonum", $vonum);
-        unset($params);
+        $this->view->assign("vo",  $this->model->getNumFromDb($params));
         if ($this->request->isPost()) {
             $params = $this->request->post("row/a");
             //dump($params);exit;
@@ -314,25 +310,5 @@ class Hlyorder extends HlycardBase
         }
         return $base64_image;
     }
-    public function unlocknum(){
-        $params = input('param.');
-        $this->view->assign("regionList", $this->model->getRegion());
-        $this->view->assign("offerList", $this->model->getOffer());
-        if ($this->request->isPost()) {
-            $params = $this->request->post("row/a");
-            //dump($params);exit;
-            if ($params) {
-                $arr_region= explode('-',$params['Region']) ;
-                $params['Region'] = $arr_region[1]; 
-                //以下为解锁逻辑
-                $ret = $this->callService('unlocknum', $params);
-                if ($retCode == '0000') {
-                    $this->success('号码解锁成功', '/admin/qw/hlyorder/locknum');
-                }  else {
-                    $this->error('号码解锁成功, 失败原因:'.$retMsg.'('.$retCode.')');
-                }
-            } else {
-                $this->error(__('Parameter %s can not be empty', ''));
-            }
 
 }
