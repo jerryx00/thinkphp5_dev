@@ -51,11 +51,10 @@ class BandXml extends HlyBase{
 		$xmldata['Authorization']['AppKey'] = $appkey;
 		$xmldata['Authorization']['sign'] = $sign;
 		$xmldata['Authorization']['SecInterface'] = 'NET';
-		$url = config('HLY_AUTH_URL');
+		$url = 'getToken';
 
 		$paras = xml_encode($xmldata, 'Request');
 
-		$url = config('HLY_AUTH_URL');
 		list($result, $returnContent) = http_post_hly($url, $paras, '', '');
 //		dump($xmldata);
 //		dump($url);
