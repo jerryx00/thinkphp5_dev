@@ -36,20 +36,19 @@ class Cxselect extends HlybandBase
 			$list = Db::table('qw_hlyofferbb')->field('offer_id,offer_name')->where(['status'=>1])->select();
 			$this->view->assign("list", $list);
 
-
-			$this->view->assign("bid", $bid);
-		} else {
-			if (Session::get('admin.region') == '' || Session::get('admin.region') == '')
-				//如果没输入小区关键字，则跳转到第一步
-				$this->redirect('/admin/qw/hlyband/idenCheckindex');
-		}
-
-		//   $province = $this->request->get('province');
-		//        $city = $this->request->get('city');
-		$params = input('param.');
-		$row = $this->request->post("row/a");
-		//
-		if ($this->request->isAjax()) {
+        if (Session::get('admin.region') == '' || $bid ==''){
+            //如果没输入小区关键字，则跳转到第一步
+            $this->redirect('/admin/qw/hlyband/add');
+        }
+        if ($bid !='') {              
+            $this->view->assign("bid", $bid);
+        } 
+        //   $province = $this->request->get('province');
+        //        $city = $this->request->get('city');
+        $params = input('param.');
+        $row = $this->request->post("row/a");
+        //
+        if ($this->request->isAjax()) {
 
 
 			//第一步信息，从数据库中获取

@@ -34,7 +34,12 @@ class Hlyorder extends Model
 
         return $list;
     }
+     public function getNumFromDb($d)     {
+        $list = Db::table('qw_hlyoffer')->field('offer_id,offer_name,price')->where(['status'=>1])->order('offer_id')->select();
 
+        return $list;
+    }
+    
     public function getNum($ret) {
         $retCode = '';
         $retCode = isset($ret['Response']['Content']['ReturnCode']) ? $ret['Response']['Content']['ReturnCode'] : '';
