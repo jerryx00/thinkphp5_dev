@@ -91,7 +91,14 @@ class Cxselect extends HlybandBase
 				$order_para['IcNo'] = $idenInfo['icno'];
 
 				$order_para['CountyName'] = Session::get('admin.region');
-				$order_para['Type'] = $idenInfo['type'] ;
+
+				if ($idenInfo['type'] == '0') {
+					$order_para['Type'] = '新装';
+				} else if ($idenInfo['type'] == '1') {
+					$order_para['Type'] = '续费';
+				} else {
+					$order_para['Type'] = $idenInfo['type'] ;
+				}
 
 				$order_para['GoodCode'] = $row['GoodCode'];
 				$order_para['Remark'] = $row['Remark'];
@@ -117,10 +124,10 @@ class Cxselect extends HlybandBase
 
 				//==========多次提交，再次身份验证begin===================
 				if ($this->commitCnt >1) {
-					$order_check['type'] = Session::get('admin.region');
+					$order_check['type'] = $order_para['Type'] ;
 					$order_check['telnum'] = $idenInfo['accnbr'];
 					$order_check['icNo'] = $row['GoodCode'];
-					$order_check['name'] = $idenInfo['type'] == '0' ? '1' : '2' ;
+					$order_check['name'] = $idenInfo['custname'] ;
 
 					$ret = $this->callService('idenCheck', $order_check);
 					unset($order_check);
@@ -252,10 +259,10 @@ class Cxselect extends HlybandBase
 				//==============================
 				//==========多次提交，再次身份验证begin===================
 				if ($this->commitCnt >1) {
-					$order_check['type'] = Session::get('admin.region');
+					$order_check['type'] = $order_para['Type'] ;
 					$order_check['telnum'] = $idenInfo['accnbr'];
 					$order_check['icNo'] = $row['GoodCode'];
-					$order_check['name'] = $idenInfo['type'] == '0' ? '1' : '2' ;
+					$order_check['name'] = $idenInfo['custname'] ;
 
 					$ret = $this->callService('idenCheck', $order_check);
 					unset($order_check);
