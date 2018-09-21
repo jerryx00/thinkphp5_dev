@@ -6,10 +6,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Table.api.init({
                 extend: {
                     index_url: 'qw/hlyband/index',
-                    add_url: 'qw/hlyband/add',
+                    add_url: 'qw/hlyband/idencheckindex',
                     edit_url: 'qw/hlyband/edit',
-
-
+                    del_url: 'qw/hlyband/del',
+                    multi_url: 'qw/hlyband/multi',
                     table: 'qw_hlyband',
                 }
             });
