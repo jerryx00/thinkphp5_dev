@@ -40,7 +40,30 @@ class Hlyorder extends Model
         return $list;
     }
     
-    public function getNum($ret) {
+    
+     public function getNum($ret) {
+        $retCode = '';
+        $retCode = isset($ret['ReturnCode']) ? $ret['ReturnCode'] : '';
+        $retMsg = isset($ret['ReturnMessage']) ? $ret['ReturnMessage'] : '';
+
+        $Region = isset($ret['TelnumList']) ?$ret['TelnumList'] : '';
+        $city  = isset($Region['item']) ? $Region['item']:'';
+        $r = [];
+        if ($city !=''){
+            foreach ($city as $k => $v) {
+                $id = $v['@attributes']['id'];
+                unset($v['@attributes']);
+                $addr = $v['TelNum'];
+                $v['id'] = $id;
+                $r[$k] = $v;
+            }
+        }
+        unset($ret);
+        unset($Region);
+        return $r;
+    }
+    
+    public function getNumHk($ret) {
         $retCode = '';
         $retCode = isset($ret['Response']['Content']['ReturnCode']) ? $ret['Response']['Content']['ReturnCode'] : '';
         $retMsg = isset($ret['Response']['Content']['ReturnMessage']) ? $ret['Response']['Content']['ReturnMessage'] : '';

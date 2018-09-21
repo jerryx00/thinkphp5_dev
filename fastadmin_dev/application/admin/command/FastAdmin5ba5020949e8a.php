@@ -1,6 +1,6 @@
 <?php
 
-namespace app\admin\controller\qw;
+namespace app\admin\command;
 
 use app\common\controller\Backend; 
 use Think\Db;
@@ -12,7 +12,7 @@ use Think\Request;
 *
 * @icon fa fa-circle-o
 */
-class Hlyorder extends HlycardBase
+class FastAdmin5ba5020949e8a extends HlycardBase
 {
 
     /**
@@ -27,116 +27,6 @@ class Hlyorder extends HlycardBase
         $this->model = new \app\admin\model\qw\Hlyorder;
 
     }
-
-    /**
-    * 从和力云查询符合条件的号码
-    * 
-    */
-    public function add(){
-        $params = input('param.');
-        $this->view->assign("regionList", $this->model->getRegion());
-        $this->view->assign("offerList", $this->model->getOffer());
-        if ($this->request->isPost()) {
-            $params = $this->request->post("row/a");
-            //dump($params);exit;
-            if ($params) {
-                $arr_region= explode('-',$params['Region']) ;
-                $params['Region'] = $arr_region[1];
-
-                //        *  调用service
-                $lservice = \think\Loader::model('Hk','service');
-                $params['Fitmod'] = $lservice->getFitmod($params);                
-                unset($params['filter']);
-                unset($params['mobile']);
-
-                session('hk', $params);
-                $this->success();
-
-            } else {
-                $this->error(__('Parameter %s can not be empty', ''));
-            }
-
-        }
-        return $this->view->fetch();
-
-    }
-
-    public function index()
-    {
-        //设置过滤方法
-        $this->request->filter(['strip_tags']);
-        if ($this->request->isAjax()) {
-            //如果发送的来源是Selectpage，则转发到Selectpage
-            if ($this->request->request('keyField')) {
-                return $this->selectpage();
-            }
-            $params = session('hk');
-            session('hk', null);
-
-            //        *  调用service
-            $lservice = \think\Loader::model('Hk','service');              
-            $ret = $this->callService('getNum', $params);
-            $list = $this->model->getNum($ret);
-            
-            //过滤
-//            $hkList = $lservice->filter($list, $params);
-
-            $total = count($list); 
-            
-            
-            $list = collection($list)->toArray();
-            $result = array("total" => $total, "rows" => $list);
-
-
-            return json($result);
-        }
-        return $this->view->fetch();
-    }
-    
-     /**
-     * 编辑
-     */
-    public function edit($ids = NULL) 
-    {
-        $this->view->assign("regionList", $this->model->getRegion());
-        $this->view->assign("offerList", $this->model->getOffer());
-        $row = $this->model->get($ids);
-        if (!$row)
-            $this->error(__('No Results were found'));
-        $adminIds = $this->getDataLimitAdminIds();
-        if (is_array($adminIds)) {
-            if (!in_array($row[$this->dataLimitField], $adminIds)) {
-                $this->error(__('You have no permission'));
-            }
-        }
-        if ($this->request->isPost()) {
-            $params = $this->request->post("row/a");
-            if ($params) {
-                try {
-                    //是否采用模型验证
-                    if ($this->modelValidate) {
-                        $name = basename(str_replace('\\', '/', get_class($this->model)));
-                        $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : true) : $this->modelValidate;
-                        $row->validate($validate);
-                    }
-                    $result = $row->allowField(true)->save($params);
-                    if ($result !== false) {
-                        $this->success();
-                    } else {
-                        $this->error($row->getError());
-                    }
-                } catch (\think\exception\PDOException $e) {
-                    $this->error($e->getMessage());
-                } catch (\think\Exception $e) {
-                    $this->error($e->getMessage());
-                }
-            }
-            $this->error(__('Parameter %s can not be empty', ''));
-        }
-        $this->view->assign("row", $row);
-        return $this->view->fetch();
-    }
-
 
     /**
     * 从和力云查询符合条件的号码
@@ -357,7 +247,7 @@ class Hlyorder extends HlycardBase
 
     public function impPic($accnbr) {
 
-        //        move_uploaded_file($_FILES["file"]["tmp_name"],$filename)
+//        move_uploaded_file($_FILES["file"]["tmp_name"],$filename)
         $file_z = request()->file('Z');  
         $file_f = request()->file('F');  
         if(empty($file_z) ) {  
@@ -366,7 +256,7 @@ class Hlyorder extends HlycardBase
         if(empty($file_f)) {  
             $this->error('请选择上传身份证反面照片');  
         } 
-
+         
         // 移动到框架应用根目录/public/uploads/ 目录下  
         $info_z = $file_z->move(ROOT_PATH.'public'.DS.'\uploads'); 
         $info_f = $file_f->move(ROOT_PATH.'public'.DS.'\uploads'); 

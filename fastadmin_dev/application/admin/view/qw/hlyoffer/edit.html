@@ -1,0 +1,58 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Offer_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-offer_id" data-rule="required" data-source="offer/index" class="form-control selectpage form-control" name="row[offer_id]" type="text" value="{$row.offer_id}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Offer_name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-offer_name" class="form-control form-control" name="row[offer_name]" type="text" value="{$row.offer_name}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Price')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-price" class="form-control form-control" name="row[price]" type="number" value="{$row.price}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Period')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-period" class="form-control form-control" name="row[period]" type="text" value="{$row.period}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Tariffdesc')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-tariffdesc" class="form-control form-control" name="row[tariffdesc]" type="text" value="{$row.tariffdesc}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Marketingcampaign')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-marketingcampaign" class="form-control form-control" name="row[marketingcampaign]" type="text" value="{$row.marketingcampaign}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Remark')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-remark" class="form-control form-control" name="row[remark]" type="text" value="{$row.remark}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-status" class="form-control form-control" name="row[status]" type="number" value="{$row.status}">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
