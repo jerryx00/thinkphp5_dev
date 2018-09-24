@@ -62,7 +62,7 @@ class Hlyorder extends HlycardBase
         return $this->view->fetch();
 
     }
-  
+
     public function index()
     {
         //设置过滤方法
@@ -73,19 +73,19 @@ class Hlyorder extends HlycardBase
                 return $this->selectpage();
             }
             $params = session('hk');
-//            session('hk', null);
+            //            session('hk', null);
 
             //        *  调用service
             $lservice = \think\Loader::model('Hk','service');              
             $ret = $this->callService('getNum', $params);
             $list = $this->model->getNum($ret, $params);
-            
+
             //过滤
-//            $hkList = $lservice->filter($list, $params);
+            //            $hkList = $lservice->filter($list, $params);
 
             $total = count($list); 
-            
-            
+
+
             $list = collection($list)->toArray();
             $result = array("total" => $total, "rows" => $list, "params" =>$params);
 
@@ -94,10 +94,10 @@ class Hlyorder extends HlycardBase
         }
         return $this->view->fetch();
     }
-    
-     /**
-     * 编辑
-     */
+
+    /**
+    * 编辑
+    */
     public function edit($ids = NULL) 
     {
         $this->view->assign("regionList", $this->model->getRegion());
@@ -191,10 +191,10 @@ class Hlyorder extends HlycardBase
             $xmldata['OrgId'] = $OrgId;  
         } 
         $ret['ReturnCode'] = '0';       
-//        $ret = $this->callService('locknum', $xmldata);
+        //        $ret = $this->callService('locknum', $xmldata);
         unset($xmldata);
 
-        
+
         $retCode = isset($ret['ReturnCode']) ? $ret['ReturnCode'] : '';
         $retMsg = isset($ret['ReturnMessage']) ? $ret['ReturnMessage'] : 'ok';
 
@@ -204,7 +204,7 @@ class Hlyorder extends HlycardBase
         $params['returnmessage'] = $retMsg;
         $params['locked_at'] = time();
         $params['uid'] = (int)$this->auth->id;        
-                
+
         if ($vo) {    
             $ret = $this->model->updLockNum($params, $filter);;
         } else {
@@ -239,7 +239,7 @@ class Hlyorder extends HlycardBase
     public function idencheck(){
         $params = input('param.');
         $id = isset($params['id']) ? $params['id'] :'';
-       // $this->view->assign("regionList", $this->model->getRegion());
+        // $this->view->assign("regionList", $this->model->getRegion());
         $vonum = $this->model->getLockNum($params);
         $this->view->assign("vonum", $vonum);
         unset($params);
@@ -247,8 +247,8 @@ class Hlyorder extends HlycardBase
             $params = $this->request->post("row/a");
             //dump($params);exit;
             if ($params) {
-//                $arr_region= explode('-',$params['region']) ;
-//                $params['region'] = $arr_region[1];
+                //                $arr_region= explode('-',$params['region']) ;
+                //                $params['region'] = $arr_region[1];
 
                 $xmlData['IdCard'] = $params['idcard'];
                 $xmlData['Mobile'] = $params['telnum'];
@@ -256,8 +256,8 @@ class Hlyorder extends HlycardBase
 
 
                 $ret['ReturnCode'] = '0000';
-//                $ret = $this->callService('idenCheck', $xmlData, 'IdenCheck');
-    
+                //                $ret = $this->callService('idenCheck', $xmlData, 'IdenCheck');
+
                 unset($xmlData);
 
                 $retCode = isset($ret['ReturnCode']) ? $ret['ReturnCode'] : '';
@@ -265,9 +265,9 @@ class Hlyorder extends HlycardBase
 
                 $params['returncode'] = $retCode;
                 $params['returnmessage'] = $retMsg;
-                
+
                 $this->model->updLockNum($params, ['id'=> $id]);
-                 unset($params);
+                unset($params);
                 if ($retCode == '0000') { 
                     $this->success('身份验证成功', '/admin/qw/profile/index?id='.$id);
                 }  else {
@@ -283,20 +283,22 @@ class Hlyorder extends HlycardBase
         return $this->view->fetch();
 
     }
-       
+
 
     public function order(){
-        $this->view->assign("regionList", $this->model->getRegion());
-        $this->view->assign("vo",  $this->model->getNumFromDb($params));
+        $params = input('param.');
+        $id = isset($params['id']) ? $params['id'] :'';
+        // $this->view->assign("regionList", $this->model->getRegion());
+
         if ($this->request->isPost()) {
             $params = $this->request->post("row/a");
+
             //dump($params);exit;
             if ($params) {
-                if ($retCode == '0000') {
-                    $this->success('订单提交成功', '/admin/qw/hlyorder/index?'.$params);
-                }  else {
-                    $this->error('提交失败，失败原因:'.$retMsg.'('.$retCode.')');
-                }
+                $vonum = $this->model->getLockNum($params);
+                $this->view->assign("vo",  $vonum);
+
+                
             } else {
                 $this->error(__('Parameter %s can not be empty', ''));
             }
@@ -305,5 +307,5 @@ class Hlyorder extends HlycardBase
         return $this->view->fetch();
 
     }
-        
+
 }
