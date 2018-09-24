@@ -3,8 +3,8 @@
 /thinkphp/
 /vendor/
 /runtime/*
-/addons/*
 /uploads/*
+/addons/*
 /application/admin/command/Install/*.lock
 /public/assets/libs/
 /public/assets/addons/*

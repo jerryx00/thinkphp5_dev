@@ -9,17 +9,19 @@ use think\Cache;
 use think\Config;
 use think\Db;
 use think\Lang;
-use app\admin\controller\qw\HlybandBase;
+use app\admin\controller\qw\HlycardBase;
+use app\admin\model\qw\Hlylockednum as Hlylockednum;
+use app\admin\model\qw\Attachment as Attachment;
 use \think\Session;
 
 /**
 * Ajax异步请求接口
 * @internal
 */
-class Hkajax extends HlybandBase
+class Hkajax extends HlycardBase
 {
 
-        protected $noNeedLogin = ['lang'];
+    protected $noNeedLogin = ['lang'];
     protected $noNeedRight = ['*'];
     protected $layout = '';
     protected $properties_of_area = [];
@@ -34,150 +36,20 @@ class Hkajax extends HlybandBase
     }
 
     /**
-    * 加载语言包
+    * 上传文件
     */
-    public function lang()
-    {
-        header('Content-Type: application/javascript');
-        $controllername = input("controllername");
-        //默认只加载了控制器对应的语言名，你还根据控制器名来加载额外的语言包
-        $this->loadlang($controllername);
-        return jsonp(Lang::get(), 200, [], ['json_encode_param' => JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE]);
-    }
-
-
-
-
-
-    /**
-    * 读取省市区数据,联动列表
-    */
-    public function province()
-    {
-        //id as value,name
-        $params = [];
-        $province = $this->request->get('province');
-
-        $citylist = [];
-        //		if ($province !== '') {
-        $params['Type'] = '0';
-        $params['Region'] = '南京';
-        $params['AddressId'] = '99';
-        $params['Address'] = '江苏';
-        //		}
-        $this->general($params);
-    }
-
-    public function city()
-    {
-        //id as value,name
-        $params = [];
-        $citylist = [];
-        $addressid = $this->request->get('province');
-        if ($addressid !== '' ) {
-            $region_name = Db::table('qw_hlyjscity')->where(['areaid'=>$addressid])->value('areaname');
-            Session::set('admin.region', $region_name);
-
-            $params['Type'] = '1';
-            $params['Region'] = Session::get('admin.region');
-            $params['AddressId'] = $addressid;
-            $params['Address'] = Session::get('admin.region');;
-        }
-        $this->general($params);
-    }
-
-    public function area()
-    {
-        //id as value,name
-        $params = [];
-        $citylist = [];
-        $province = $this->request->get('province');
-        $address = $this->request->get('address');
-
-        $addressid = $this->request->get('city');
-        if ($addressid !== '' ) {
-            //		 Db::table('qw_hlyband')->where($params)->find();
-            $params['Type'] = '2';
-            $params['Region'] = Session::get('admin.region');;
-            $params['AddressId'] = $addressid;
-            $params['Address'] = Session::get('admin.an');
-        }
-        $this->general($params);
-    }
-    public function street()
-    {
-        //id as value,name
-        $params = [];
-        $citylist = [];
-        $province = $this->request->get('province');
-        $address = $this->request->get('address');
-        $city = $this->request->get('city');
-        $addressid = $this->request->get('area');
-        if ($addressid !== '' ) {
-            $params['Type'] = '3';
-            $params['Region'] = Session::get('admin.region');;
-            $params['AddressId'] = $addressid;
-            $params['Address'] = Session::get('admin.an');
-        }
-
-        $this->general($params);
-    }
-
-    public function build()
-    {
-        //id as value,name
-        $params = [];
-        $citylist = [];
-        $addressid = $this->request->get('street');
-
-        if ($addressid !== '' ) {
-            $params['Type'] = '3';
-            $params['Region'] = Session::get('admin.region');;
-            $params['AddressId'] = $addressid;
-            $params['Address'] = Session::get('admin.an');
-        }
-        $this->general($params);
-    }
-
-    public function unit()
-    {
-        //id as value,name
-        $params = [];
-        $citylist = [];
-        $addressid = $this->request->get('build');
-
-        if ($addressid !== '' ) {
-            $params['Type'] = '3';
-            $params['Region'] = Session::get('admin.region');;
-            $params['AddressId'] = $addressid;
-            $params['Address'] = Session::get('admin.an');
-        }
-        $this->general($params);
-    }
-    public function room()
-    {
-        //id as value,name
-        $params = [];
-        $citylist = [];
-        $addressid = $this->request->get('unit');
-
-        if ($addressid !== '' ) {
-            $params['Type'] = '3';
-            $params['Region'] = Session::get('admin.region');;
-            $params['AddressId'] = $addressid;
-            $params['Address'] = Session::get('admin.an');
-        }
-        $this->general($params);
-    }
-
-
-     /**
-     * 上传文件
-     */
     public function upload()
     {
+        $pm = input('param.');
+        $cardtype = $pm['cardtype'];
+        $lockid = $pm['id'];
+        $acc_nbr = $pm['telnum'];
+        $idcard = $pm['idcard'];
+
+
         Config::set('default_return_type', 'json');
         $file = $this->request->file('file');
+
         if (empty($file)) {
             $this->error(__('No file upload or server upload limit exceeded'));
         }
@@ -204,8 +76,8 @@ class Hkajax extends HlybandBase
                 !in_array($suffix, $mimetypeArr)
                 || (stripos($typeArr[0] . '/', $upload['mimetype']) !== false && (!in_array($fileInfo['type'], $mimetypeArr) && !in_array($typeArr[0] . '/*', $mimetypeArr)))
             )
-        ) {
-            $this->error(__('Uploaded file format is limited'));
+            ) {
+                $this->error(__('Uploaded file format is limited'));
         }
         $replaceArr = [
             '{year}'     => date("Y"),
@@ -236,6 +108,11 @@ class Hkajax extends HlybandBase
                 $imagewidth = isset($imgInfo[0]) ? $imgInfo[0] : $imagewidth;
                 $imageheight = isset($imgInfo[1]) ? $imgInfo[1] : $imageheight;
             }
+
+            //获取base64
+            $saveurl = ROOT_PATH . '/public' .$uploadDir . $splInfo->getSaveName();
+            $base64 = $this->base64EncodeImage($saveurl);
+
             $params = array(
                 'admin_id'    => (int)$this->auth->id,
                 'user_id'     => 0,
@@ -249,19 +126,83 @@ class Hkajax extends HlybandBase
                 'uploadtime'  => time(),
                 'storage'     => 'local',
                 'sha1'        => $sha1,
+                'base64' => $base64,
+                'cardtype' => $cardtype,
+                'idcard' => $idcard,
             );
-            $attachment = model("attachment");
-            $attachment->data(array_filter($params));
-            $attachment->save();
-            \think\Hook::listen("upload_after", $attachment);
-            $this->success(__('Upload successful'), null, [
-                'url' => $uploadDir . $splInfo->getSaveName()
-            ]);
+            $retCust = $this->custPicDiscernUpload($params, $pm);
+            \think\Hook::listen("upload_after", $retCust['attachment']);
+            // -1    | 已存在正面照 
+
+            if ($retCust['retCode'] == '0' ) {
+                $this->success(__('校验通过'), null, [ 'url' => $params['url']]);
+            }else {
+                if (strpos($retCust['retMsg'], '已存在') !== false && $retCust['retCode'] == '-1') {
+                    $this->success(__('校验通过'), null, [ 'url' => $params['url']]); 
+                }
+                //                $this->error(__($retCust['retMsg'].$retCust['retCode']), url('admin/qw/profile/indexf',['id'=>$lockid]),['url' => $params['url'], 'msg1'=>$retCust['retMsg'].$retCust['retCode']]);
+                $this->error(__($retCust['retMsg'].$retCust['retCode']));
+            }
+
         } else {
             // 上传失败获取错误信息
             $this->error($file->getError());
         }
     }
+
+    public function custPicDiscernUpload($params, $pm) {
+        //保存到附件中
+        $attachment = new Attachment;
+        $vo = [];
+        //            $vo = Attachment::get(['idcard'=>$params['idcard']]);
+        $attachid = '';
+        if (true != $vo) {
+            $attachment->data(array_filter($params));
+            $ret = $attachment->save($params);
+            $attachid = $attachment->id;
+        } else {
+            $ret = Attachment::update($params, ['idcard'=>$params['idcard']]);
+            $attachid = $vo['id']; 
+        }
+
+        //调用HLY接口              
+        $Content = [];
+        $picname = '';
+        //                $Content[$k]['busiSeq'] = $k.$d[telnum];
+        $Content['phone'] = $pm['telnum'];
+        $Content['picFile'] = $params['base64'];
+        $Content['picType'] = $pm['cardtype'];
+        $Content['busiSeq'] = $pm['telnum'];
+        
+        unset($ret);
+        $ret['retCode'] = '0' ;
+//        $ret = $this->callService('custPicDiscern', $Content);
+        $msg = isset($ret['retMsg'])? $ret['retMsg'] : ''; 
+        if ($ret['retCode'] != '0') {
+            $status = '1';
+            $msg = $msg .'(' . $ret['retCode'].')';
+        }
+        //保存到$hlylockednum表
+        $hlylocknumModel = new Hlylockednum;           
+        $data_locknum = [];
+        $cardtype = strtolower($pm['cardtype']);
+        $data_locknum[$cardtype.'_attachid'] = $attachid;
+        $data_locknum[$cardtype.'picurl'] = $params['url'];
+        $data_locknum[$cardtype.'code'] = $ret['retCode'];
+        $data_locknum[$cardtype.'msg'] = $msg;
+
+
+        $hlylocknumModel->data(array_filter($data_locknum));             
+        $retUpd = $hlylocknumModel::update($data_locknum, ['id'=>$pm['id']]);
+        unset($data_locknum);
+        unset($params);
+        unset($pm);
+        $ret['attachment'] = $attachment;
+        unset($retUpd);
+        return $ret;
+
+    }
+
 
     protected function base64EncodeImage ($image_file, $isCarryDataBase ='0') {
         $base64_image = '';

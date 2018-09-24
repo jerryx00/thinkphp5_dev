@@ -6,10 +6,10 @@ use think\Model;
 use think\Db;
 use EasyWeChat\Support\XML;
 
-class Hlyorder extends Model
+class Hlylockednum extends Model
 {
-    // 表名
-    protected $table = 'qw_hlyorder';
+    // 表名111
+    protected $table = 'qw_hlylockednum';
 
     // 自动写入时间戳字段
     protected $autoWriteTimestamp = false;
@@ -39,11 +39,6 @@ class Hlyorder extends Model
 
         return $vo;
     }
-    public function updLockNum($d, $filter)     {
-        $ret = Db::table('qw_hlylockednum')->where($filter)->update($d);
-        return $ret;
-    }
-    
     
     
      public function getNum($ret, $params) {
@@ -89,7 +84,12 @@ class Hlyorder extends Model
         unset($ret);
         unset($Region);
         return $r;
-    }  
+    }
+
+
+
+
+
 
 
 }

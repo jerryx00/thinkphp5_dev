@@ -35,29 +35,7 @@
 </style>
 <div class="row animated fadeInRight">
     <div">
-     <form id="update-form" role="form" data-toggle="validator" method="POST" action="{:url('qw.profile/indexf')}">
-        <div class="box box-success">
-            <div class="panel-heading">
-                {:__('身份证正面上传')}<div id="err_tip"></div>
-            </div>
-            <div class="panel-body">            
-                   
-                    <input type="hidden" id="c-id" name="row[id]" value="{$vo['id']}" />
-                    <div class="box-body box-profile">
-                        
-                        <div class="profile-avatar-container">
-                            <img class="profile-user-img img-responsive img-circle plupload" src="__CDN__{$vo.zpicurl}" alt="">
-                            <div class="profile-avatar-text img-circle">{:__('点击上传')}</div>
-                            <button id="plupload-avatar" class="plupload" data-url="hkajax/upload" data-input-id="c-avatar" data-mimetype="image/png,image/jpg,image/jpeg" data-multipart='{"id":"{$vo['id']}","cardtype":"Z","telnum":"{$vo['telnum']}","idcard":"{$vo['idcard']}"}' data-maxsize="5M"><i class="fa fa-upload"></i> {:__('上传')}</button> 
-                        </div>
-                        
-                         
-                    </div>
-
-            </div>
-        
-        </div>
-        
+     <form id="update-form" role="form" data-toggle="validator" method="POST" action="{:url('qw.profile/indexm')}">
         <div class="box box-success">
             <div class="panel-heading">
                 {:__('身份证反面上传')}<div id="err_tip"></div>
@@ -71,28 +49,6 @@
                             <img class="profile-user-img img-responsive img-circle plupload" src="__CDN__{$vo.fpicurl}" alt="">
                             <div class="profile-avatar-text img-circle">{:__('点击上传')}</div>
                             <button id="plupload-avatar" class="plupload" data-url="hkajax/upload" data-input-id="c-avatar" data-mimetype="image/png,image/jpg,image/jpeg" data-multipart='{"id":"{$vo['id']}","cardtype":"F","telnum":"{$vo['telnum']}","idcard":"{$vo['idcard']}"}' data-maxsize="5M"><i class="fa fa-upload"></i> {:__('上传')}</button> 
-                        </div>
-                        
-                         
-                    </div>
-
-            </div>
-        
-        </div>
-        
-        <div class="box box-success">
-            <div class="panel-heading">
-                {:__('免冠照上传')}<div id="err_tip"></div>
-            </div>
-            <div class="panel-body">            
-                   
-                    <input type="hidden" id="c-id" name="row[id]" value="{$vo['id']}" />
-                    <div class="box-body box-profile">
-                        
-                        <div class="profile-avatar-container">
-                            <img class="profile-user-img img-responsive img-circle plupload" src="__CDN__{$vo.mpicurl}" alt="">
-                            <div class="profile-avatar-text img-circle">{:__('点击上传')}</div>
-                            <button id="plupload-avatar" class="plupload" data-url="hkajax/upload" data-input-id="c-avatar" data-mimetype="image/png,image/jpg,image/jpeg" data-multipart='{"id":"{$vo['id']}","cardtype":"M","telnum":"{$vo['telnum']}","idcard":"{$vo['idcard']}"}' data-maxsize="5M"><i class="fa fa-upload"></i> {:__('上传')}</button> 
                         </div>
                         
                          
