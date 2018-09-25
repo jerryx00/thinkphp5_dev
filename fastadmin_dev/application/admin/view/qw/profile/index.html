@@ -92,7 +92,7 @@
                         <div class="profile-avatar-container">
                             <img class="profile-user-img_m img-responsive img-circle plupload" src="__CDN__{$vo.mpicurl | default='/assets/img/avatar.png'}" alt="">
                             <div class="profile-avatar-text img-circle">{:__('点击上传')}</div>
-                            <button id="plupload-avatar_m" class="plupload" data-input-id="c-avatar1" data-url="hkajax/upload" data-mimetype="image/png,image/jpg,image/jpeg" data-multipart='{"id":"{$vo['id']}","cardtype":"M","telnum":"{$vo['telnum']}","idcard":"{$vo['idcard']}"}' data-maxsize="5M"><i class="fa fa-upload"></i> {:__('上传')}</button>
+                            <button id="plupload-avatar_m" class="plupload" data-input-id="c-avatar1" data-url="hkajax/upload" data-mimetype="image/png,image/jpg,image/jpeg" data-multipart='{"id":"{$vo['id']}","cardtype":"M","telnum":"{$vo['telnum'],"username":"{$vo['username']}}","idcard":"{$vo['idcard']}"}' data-maxsize="5M"><i class="fa fa-upload"></i> {:__('上传')}</button>
                         </div>
                                                   
                     </div>

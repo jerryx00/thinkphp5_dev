@@ -130,6 +130,7 @@ class Hkajax extends HlycardBase
                 'cardtype' => $cardtype,
                 'idcard' => $idcard,
             );
+
             $retCust = $this->custPicDiscernUpload($params, $pm);
             \think\Hook::listen("upload_after", $retCust['attachment']);
             // -1    | 已存在正面照 
@@ -168,23 +169,39 @@ class Hkajax extends HlycardBase
         //调用HLY接口              
         $Content = [];
         $picname = '';
-        //                $Content[$k]['busiSeq'] = $k.$d[telnum];
-        $Content['phone'] = $pm['telnum'];
-        $Content['picFile'] = $params['base64'];
-        $Content['picType'] = $pm['cardtype'];
-        $Content['busiSeq'] = $pm['telnum'];
+        $data_locknum = [];
         
-        unset($ret);
-        $ret['retCode'] = '0' ;
-//        $ret = $this->callService('custPicDiscern', $Content);
-        $msg = isset($ret['retMsg'])? $ret['retMsg'] : ''; 
-        if ($ret['retCode'] != '0') {
-            $status = '1';
-            $msg = $msg .'(' . $ret['retCode'].')';
+        $Content['phone'] = $pm['telnum'];
+            $Content['picFile'] = $params['base64'];
+            $Content['picType'] = $pm['cardtype'];
+            $Content['busiSeq'] = $pm['telnum'];
+            
+        if ($pm['cardtype'] == 'M') {  //免冠照
+            $Content['icNo'] = $params['idcard'];
+            $Content['name'] = $pm['username'];
+
+            unset($ret);
+            $ret['retCode'] = '0' ;
+            //        $ret = $this->callService('custPhotoCompare', $Content);
+            $msg = isset($ret['retMsg'])? $ret['retMsg'] : ''; 
+            if ($ret['retCode'] != '0') {
+                $status = '1';
+                $msg = $msg .'(' . $ret['retCode'].')';
+                $data_locknum['picnamerpath'] = isset($ret['picNameRPath']) ? $ret['picNameRPath'] : '';
+            }  
+        } else { //身份证正反面
+            unset($ret);
+            $ret['retCode'] = '0' ;
+            //        $ret = $this->callService('custPicDiscern', $Content);
+            $msg = isset($ret['retMsg'])? $ret['retMsg'] : ''; 
+            if ($ret['retCode'] != '0') {
+                $status = '1';
+                $msg = $msg .'(' . $ret['retCode'].')';
+            }
         }
         //保存到$hlylockednum表
         $hlylocknumModel = new Hlylockednum;           
-        $data_locknum = [];
+        
         $cardtype = strtolower($pm['cardtype']);
         $data_locknum[$cardtype.'_attachid'] = $attachid;
         $data_locknum[$cardtype.'picurl'] = $params['url'];

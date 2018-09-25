@@ -292,12 +292,11 @@ class Hlyorder extends HlycardBase
 
         if ($this->request->isPost()) {
             $params = $this->request->post("row/a");
-
-            //dump($params);exit;
             if ($params) {
                 $vonum = $this->model->getLockNum($params);
                 $this->view->assign("vo",  $vonum);
-
+                
+        
                 
             } else {
                 $this->error(__('Parameter %s can not be empty', ''));
