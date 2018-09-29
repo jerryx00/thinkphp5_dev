@@ -6,21 +6,36 @@ use think\Model;
 
 class Attachment extends Model
 {
-
     // 表名
     protected $table = 'qw_attachment';
-    // 开启自动写入时间戳字段
+    
+    // 自动写入时间戳字段
     protected $autoWriteTimestamp = 'int';
+
     // 定义时间戳字段名
     protected $createTime = 'createtime';
     protected $updateTime = 'updatetime';
-    // 定义字段类型
-    protected $type = [
+    
+    // 追加属性
+    protected $append = [
+        'uploadtime_text'
     ];
+    
 
-    public function setUploadtimeAttr($value)
+    
+
+
+
+    public function getUploadtimeTextAttr($value, $data)
     {
-        return strtotime($value);
+        $value = $value ? $value : (isset($data['uploadtime']) ? $data['uploadtime'] : '');
+        return is_numeric($value) ? date("Y-m-d H:i:s", $value) : $value;
     }
+
+    protected function setUploadtimeAttr($value)
+    {
+        return $value && !is_numeric($value) ? strtotime($value) : $value;
+    }
+
 
 }

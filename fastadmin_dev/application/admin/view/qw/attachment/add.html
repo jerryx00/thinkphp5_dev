@@ -1,0 +1,106 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('User_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-user_id" data-rule="required" data-source="user/user/index" data-field="nickname" class="form-control selectpage form-control" name="row[user_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Url')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-url" data-rule="required" class="form-control form-control" name="row[url]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Imagewidth')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-imagewidth" data-rule="required" class="form-control form-control" name="row[imagewidth]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Imageheight')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-imageheight" data-rule="required" class="form-control form-control" name="row[imageheight]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Imagetype')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-imagetype" data-rule="required" class="form-control form-control" name="row[imagetype]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Imageframes')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-imageframes" data-rule="required" class="form-control form-control" name="row[imageframes]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Filesize')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-filesize" data-rule="required" class="form-control form-control" name="row[filesize]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Mimetype')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-mimetype" data-rule="required" class="form-control form-control" name="row[mimetype]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Extparam')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-extparam" data-rule="required" class="form-control form-control" name="row[extparam]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Uploadtime')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-uploadtime" data-rule="required" class="form-control datetimepicker form-control" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[uploadtime]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Storage')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-storage" data-rule="required" class="form-control form-control" name="row[storage]" type="text" value="local">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Sha1')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-sha1" data-rule="required" class="form-control form-control" name="row[sha1]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Cardtype')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-cardtype" class="form-control form-control" name="row[cardtype]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Base64')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-base64" class="form-control  form-control" rows="5" name="row[base64]" cols="50"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Idcard')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-idcard" class="form-control form-control" name="row[idcard]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-status" class="form-control form-control" name="row[status]" type="number" value="1">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

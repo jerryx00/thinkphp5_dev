@@ -16,3 +16,12 @@ CREATE TABLE `qw_hlylog` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+ALTER TABLE `qw_hlyband`   
+  ADD COLUMN `uid` INT(10) NULL COMMENT '商户ID' AFTER `id`;
+  
+  ALTER TABLE `qw_hlybandpre`   
+  ADD COLUMN `uid` INT(10) NULL COMMENT '商户ID' AFTER `id`;
+  
+  ALTER TABLE `qw_hlyorder`   
+  ADD COLUMN `uid` INT(10) NULL COMMENT '商户ID' AFTER `id`;

@@ -1,0 +1,178 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Uid')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-uid" class="form-control form-control" name="row[uid]" type="number" value="{$row.uid}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Bizseq')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-bizseq" class="form-control form-control" name="row[bizseq]" type="text" value="{$row.bizseq}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Telnum')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-telnum" class="form-control form-control" name="row[telnum]" type="text" value="{$row.telnum}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Region')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-region" class="form-control form-control" name="row[region]" type="text" value="{$row.region}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Idcard')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-idcard" class="form-control form-control" name="row[idcard]" type="text" value="{$row.idcard}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Username')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-username" class="form-control form-control" name="row[username]" type="text" value="{$row.username}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Price')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-price" class="form-control form-control" name="row[price]" type="number" value="{$row.price}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Offer_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-offer_id" data-rule="required" data-source="offer/index" class="form-control selectpage form-control" name="row[offer_id]" type="text" value="{$row.offer_id}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Offer_name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-offer_name" class="form-control form-control" name="row[offer_name]" type="text" value="{$row.offer_name}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Created_at')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-created_at" class="form-control form-control" name="row[created_at]" type="number" value="{$row.created_at}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Updated_at')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-updated_at" class="form-control form-control" name="row[updated_at]" type="number" value="{$row.updated_at}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Locked_at')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-locked_at" class="form-control form-control" name="row[locked_at]" type="number" value="{$row.locked_at}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Returncode')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-returncode" class="form-control form-control" name="row[returncode]" type="text" value="{$row.returncode}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Returnmessage')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-returnmessage" class="form-control form-control" name="row[returnmessage]" type="text" value="{$row.returnmessage}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Z_attachid')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-z_attachid" class="form-control form-control" name="row[z_attachid]" type="number" value="{$row.z_attachid}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Zpicurl')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-zpicurl" class="form-control form-control" name="row[zpicurl]" type="text" value="{$row.zpicurl}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Zcode')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-zcode" class="form-control form-control" name="row[zcode]" type="text" value="{$row.zcode}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Zmsg')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-zmsg" class="form-control form-control" name="row[zmsg]" type="text" value="{$row.zmsg}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('F_attachid')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-f_attachid" class="form-control form-control" name="row[f_attachid]" type="number" value="{$row.f_attachid}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Fpicurl')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-fpicurl" class="form-control form-control" name="row[fpicurl]" type="text" value="{$row.fpicurl}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Fcode')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-fcode" class="form-control form-control" name="row[fcode]" type="text" value="{$row.fcode}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Fmsg')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-fmsg" class="form-control form-control" name="row[fmsg]" type="text" value="{$row.fmsg}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('M_attachid')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-m_attachid" class="form-control form-control" name="row[m_attachid]" type="number" value="{$row.m_attachid}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Mpicurl')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-mpicurl" class="form-control form-control" name="row[mpicurl]" type="text" value="{$row.mpicurl}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Mcode')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-mcode" class="form-control form-control" name="row[mcode]" type="text" value="{$row.mcode}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Mmsg')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-mmsg" class="form-control form-control" name="row[mmsg]" type="text" value="{$row.mmsg}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Picnamerpath')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-picnamerpath" class="form-control form-control" name="row[picnamerpath]" type="text" value="{$row.picnamerpath}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-status" class="form-control form-control" name="row[status]" type="text" value="{$row.status}">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
