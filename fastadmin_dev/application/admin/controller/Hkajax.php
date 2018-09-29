@@ -108,7 +108,19 @@ class Hkajax extends HlycardBase
                 $imagewidth = isset($imgInfo[0]) ? $imgInfo[0] : $imagewidth;
                 $imageheight = isset($imgInfo[1]) ? $imgInfo[1] : $imageheight;
             }
+            $thumb_w_h = config('thumb_width_height');
+			if ($thumb_w_h  != '') {
+				$w_h =  explode(',', $thumb_w_h);
 
+                $imagewidth =  isset($w_h[0]) ? $w_h[0] : $imagewidth;
+                $imageheight =  isset($w_h[1]) ? $w_h[1] : $imageheight;
+
+				//压缩文件  begin
+				$image = \think\Image::open(ROOT_PATH . '/public' . $uploadDir. $fileName);
+				// 按照原图的比例生成一个最大为600*600的缩略图替换原图
+				$image->thumb($imagewidth, $imageheight)->save(ROOT_PATH . '/public' . $uploadDir. $fileName);
+				//压缩文件  end
+			}
             //获取base64
             $saveurl = ROOT_PATH . '/public' .$uploadDir . $splInfo->getSaveName();
             $base64 = $this->base64EncodeImage($saveurl);

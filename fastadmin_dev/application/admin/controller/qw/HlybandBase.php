@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace app\admin\controller\qw;
 
@@ -71,18 +71,25 @@ class HlybandBase extends Backend
         return $r;
     }
 
-    public function general($params, $url='addressSearch')
+//to fix
+    public function general($params, $url='addressSearch', $times=1)
     {
-
+		$citylist = [];
+		$citys = [];
+		if ($times == 1){
         $citylist = $this->getAddr($url, $params);
-        //		}
-        //		$cnt = count($citylist);
-        //		$citylist[$cnt]['value']='';
-        //		$citylist[$cnt]['name']='以上全选';
+		}   else {
+			for($n=0;$n<$times;$n++){
+				$params['Page'] = $n + 1;
+				if (isset($params['Type']) && $params['Type'] == '3'){
+					$citys[$n] = $this->getAddr($url, $params);
+				} else {
+					$citys[$n] = $this->getAddr($url, $params);
+				}
 
-
-        //$url = config('HLY_BAND_URL_PREFIX').'addressSearch';
-        //        $citylist = $this->getAddr($url, $params);
+				$citylist = array_merge($citylist, $citys[$n]);
+			}
+		}
         $this->success('', null, $citylist);
     }
 
