@@ -238,6 +238,9 @@ if (!function_exists('toDate')) {
 		if (empty ( $time )) {
 			return '';
 		}
+		if (strlen($time) > 11) {
+			return $time;
+		}
 		$format = str_replace ( '#', ':', $format );
 		return date ($format, $time );
 	}
