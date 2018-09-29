@@ -1,5 +1,4 @@
 <?php
-
 namespace app\admin\controller\qw;
 
 use app\common\controller\Backend;

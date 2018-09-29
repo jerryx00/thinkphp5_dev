@@ -139,7 +139,7 @@ if (!function_exists('http_post_hly')) {
 		if ($signatrue != '') {
 			$header = ["Content-type: application/xml", "4GGOGO-Auth-Token: " . $token, "HTTP-X-4GGOGO-Signature: " . $signatrue];
 		}
-		trace($url . '->' .$requestXML,'error');
+		trace($url . ' -> ' .$requestXML,'error');
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -150,6 +150,7 @@ if (!function_exists('http_post_hly')) {
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		//close
 		curl_close($ch);
+		trace($url . ' -> :'.$httpCode.'; ' .$response,'error');
 		return array($httpCode, $response);
 	}
 }

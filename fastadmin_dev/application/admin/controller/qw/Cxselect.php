@@ -117,7 +117,7 @@ class Cxselect extends HlybandBase
 				$retMsg = isset($ret['Response']['Content']['retMsg']) ? $ret['Response']['Content']['retMsg'] :'';
 
 				if ($retCode != '0') {
-					//$this->error('商品校验失败:'.$retMsg.'('.$retCode.')');
+					$this->error('商品校验失败:'.$retMsg.'('.$retCode.')');
 				}
 				unset($ret);
 				//==========校验商品 end===================
