@@ -19,6 +19,9 @@ class Hlybandpre extends Hlyband
 	*/
 	protected $model = null;
 	protected $table = 'qw_hlybandpre';
+	protected $dataLimit = 'auth'; //默认基类中为false，表示不启用，可额外使用auth和personal两个值
+	protected $dataLimitField = 'uid'; //数据关联字段,当前控制器对应的模型表中必须存在该字段
+
 
 	public function _initialize()
 	{

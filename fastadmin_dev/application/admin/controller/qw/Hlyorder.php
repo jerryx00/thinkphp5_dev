@@ -2,7 +2,7 @@
 
 namespace app\admin\controller\qw;
 
-use app\common\controller\Backend; 
+use app\common\controller\Backend;
 use Think\Db;
 use Think\Request;
 use app\admin\model\Admin;
@@ -22,6 +22,9 @@ class Hlyorder extends HlycardBase
     * @var \app\admin\model\qw\Hlyorder
     */
     protected $model = null;
+    protected $dataLimit = 'auth'; //默认基类中为false，表示不启用，可额外使用auth和personal两个值
+	protected $dataLimitField = 'uid'; //数据关联字段,当前控制器对应的模型表中必须存在该字段
+
 
     public function _initialize()
     {
@@ -32,7 +35,7 @@ class Hlyorder extends HlycardBase
 
     /**
     * 从和力云查询符合条件的号码
-    * 
+    *
     */
     public function add(){
         $params = input('param.');
@@ -47,7 +50,7 @@ class Hlyorder extends HlycardBase
 
                 //        *  调用service
                 $lservice = \think\Loader::model('Hk','service');
-                $params['Fitmod'] = $lservice->getFitmod($params);                
+                $params['Fitmod'] = $lservice->getFitmod($params);
                 unset($params['filter']);
                 unset($params['mobile']);
 
@@ -76,14 +79,14 @@ class Hlyorder extends HlycardBase
             //            session('hk', null);
 
             //        *  调用service
-            $lservice = \think\Loader::model('Hk','service');              
+            $lservice = \think\Loader::model('Hk','service');
             $ret = $this->callService('getNum', $params);
             $list = $this->model->getNum($ret, $params);
 
             //过滤
             //            $hkList = $lservice->filter($list, $params);
 
-            $total = count($list); 
+            $total = count($list);
 
 
             $list = collection($list)->toArray();
@@ -98,7 +101,7 @@ class Hlyorder extends HlycardBase
     /**
     * 编辑
     */
-    public function edit($ids = NULL) 
+    public function edit($ids = NULL)
     {
         $this->view->assign("regionList", $this->model->getRegion());
         $this->view->assign("offerList", $this->model->getOffer());
@@ -142,7 +145,7 @@ class Hlyorder extends HlycardBase
 
     /**
     * 从和力云查询符合条件的号码
-    * 
+    *
     */
     public function getnum(){
         $params = input('param.');
@@ -157,7 +160,7 @@ class Hlyorder extends HlycardBase
 
                 //        *  调用service
                 $lservice = \think\Loader::model('Hk','service');
-                $params['Fitmod'] = $lservice->getFitmod($params['filter']);                
+                $params['Fitmod'] = $lservice->getFitmod($params['filter']);
                 unset($params['filter']);
                 unset($params['mobile']);
 
@@ -184,13 +187,13 @@ class Hlyorder extends HlycardBase
         $params = input('param.');
 
         $xmldata['Region'] = $params['region'];
-        $xmldata['Telnum'] = $params['telnum']; 
+        $xmldata['Telnum'] = $params['telnum'];
         $xmldata['Type'] = '2';
         $OrgId = isset($params['OrgId'])?$params['OrgId']:'';
         if ($OrgId != '') {
-            $xmldata['OrgId'] = $OrgId;  
-        } 
-        $ret['ReturnCode'] = '0';       
+            $xmldata['OrgId'] = $OrgId;
+        }
+        $ret['ReturnCode'] = '0';
         //        $ret = $this->callService('locknum', $xmldata);
         unset($xmldata);
 
@@ -200,18 +203,18 @@ class Hlyorder extends HlycardBase
 
         $filter['telnum'] = $params['telnum'];
         $vo = Db::table('qw_hlylockednum')->where($filter)->find();
-        $params['returncode'] = $retCode; 
+        $params['returncode'] = $retCode;
         $params['returnmessage'] = $retMsg;
         $params['locked_at'] = time();
-        $params['uid'] = (int)$this->auth->id;        
+        $params['uid'] = (int)$this->auth->id;
 
-        if ($vo) {    
+        if ($vo) {
             $ret = $this->model->updLockNum($params, $filter);;
         } else {
             $id = Db::table('qw_hlylockednum')->insertGetId($params);
         }
         unset($params);
-        if ($retCode == '0') { 
+        if ($retCode == '0') {
             $this->success('号码锁定成功', '/admin/qw/hlyorder/idencheck?id='.$id);
         }  else {
             $this->error('号码锁定成功, 失败原因:'.$retMsg.'('.$retCode.')');
@@ -268,7 +271,7 @@ class Hlyorder extends HlycardBase
 
                 $this->model->updLockNum($params, ['id'=> $id]);
                 unset($params);
-                if ($retCode == '0000') { 
+                if ($retCode == '0000') {
                     $this->success('身份验证成功', '/admin/qw/profile/index?id='.$id);
                 }  else {
                     $this->error('身份验证成功, 失败原因:'.$retMsg.'('.$retCode.')');
@@ -295,9 +298,9 @@ class Hlyorder extends HlycardBase
             if ($params) {
                 $vonum = $this->model->getLockNum($params);
                 $this->view->assign("vo",  $vonum);
-                
-        
-                
+
+
+
             } else {
                 $this->error(__('Parameter %s can not be empty', ''));
             }
