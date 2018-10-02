@@ -42,7 +42,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'bookingid', title: __('bookingid')},
                         {field: 'region', title: __('region')},
                         //                        {field: 'countyname', title: __('Countyname')},
-                                                {field: 'type', title: __('type')},
+                        {
+                            field: 'type', 
+                            title: __('type'),    
+                           
+                        },
                         //                        {field: 'remark', title: __('Remark')},
                         {field: 'goodcode', title: __('goodcode')},
                         //                        {field: 'addressid', title: __('Addressid')},
@@ -58,13 +62,29 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         //                        {field: 'cancel_at', title: __('Cancel_at')},
                         //                        {field: 'cancel_reason', title: __('Cancel_reason')},
                         //                        {field: 'comments', title: __('Comments')},
-                        {field: 'resp_code', title: __('resp_code')},
-                        {field: 'resp_msg', title: __('resp_msg')},
-                       {field: 'created_at', title: __('Created_at')},
+                        {
+                            field: 'resp_code', 
+                            title: __('resp_code'),
+                            table: table,
+                            custom: {'0000': 'success', '-2': 'danger'},
+                            formatter: Table.api.formatter.flag
+                        },
+
+                        {
+                            field: 'resp_msg',
+                            title: __('resp_msg'),
+                            custom: {'扣款失败': 'danger'},
+                            formatter: Table.api.formatter.resp_msg
+                        },
+                        {field: 'created_at', title: __('Created_at')},
 
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
-                ]
+                ] ,
+                  
+                
+                showToggle: false,
+                
             });
 
             $("#cxselect-example .col-xs-12").each(function () {
