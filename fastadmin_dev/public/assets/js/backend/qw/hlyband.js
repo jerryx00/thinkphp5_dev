@@ -16,11 +16,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
             var table = $("#table");
             //给添加按钮添加`data-area`属性
-            $(".btn-add").data("area", ["100%", "100%"]);
+//            $(".btn-add").data("area", ["100%", "100%"]);
             //当内容渲染完成给编辑按钮添加`data-area`属性
-            table.on('post-body.bs.table', function (e, settings, json, xhr) {
-                $(".btn-editone").data("area", ["100%", "100%"]);
-            });
+//            table.on('post-body.bs.table', function (e, settings, json, xhr) {
+//                $(".btn-editone").data("area", ["100%", "100%"]);
+//            });
 
             // 初始化表格
             table.bootstrapTable({
