@@ -24,7 +24,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 columns: [
                     [
                         {checkbox: true},
-                        {field: 'id', title: __('Id')},
+                        {field: 'id', title: __('Id'),operate:false},
                         {field: 'offer_id', title: __('Offer_id')},
                         {field: 'offer_name', title: __('Offer_name')},
                         {field: 'price', title: __('Price'), operate:'BETWEEN'},
@@ -32,7 +32,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'tariffdesc', title: __('Tariffdesc')},
                         {field: 'marketingcampaign', title: __('Marketingcampaign')},
                         {field: 'remark', title: __('Remark')},
-                        {field: 'status', title: __('Status')},
+                        {field: 'status', title: __('Status'),formatter: Table.api.formatter.toggle},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
                 ]

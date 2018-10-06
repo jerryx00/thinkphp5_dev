@@ -35,6 +35,7 @@ class Index extends Backend
             'addon'     => ['new', 'red', 'badge'],
             'auth/rule' => __('Menu'),
             'general'   => ['new', 'purple'],
+//            'general'   => ['18', 'purple'],
         ], $this->view->site['fixedpage']);
         $action = $this->request->request('action');
         if ($this->request->isPost()) {

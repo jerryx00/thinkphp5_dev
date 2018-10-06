@@ -42,11 +42,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'bookingid', title: __('bookingid')},
                         {field: 'region', title: __('region')},
                         //                        {field: 'countyname', title: __('Countyname')},
-                        {
-                            field: 'type', 
-                            title: __('type'),    
-                           
-                        },
+                        {field: 'type',title: __('type')},
                         //                        {field: 'remark', title: __('Remark')},
                         {field: 'goodcode', title: __('goodcode')},
                         //                        {field: 'addressid', title: __('Addressid')},
@@ -69,22 +65,30 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                             custom: {'0000': 'success', '-2': 'danger'},
                             formatter: Table.api.formatter.flag
                         },
+                        {field: 'resp_msg', title: __('resp_msg')},                        
+                        {
+                            field: 'status', 
+                            title: __('订单状态'),
+//                            table: table,
+//                            formatter: Table.api.formatter.status
+                        },
 
                         {
-                            field: 'resp_msg',
-                            title: __('resp_msg'),
-                            custom: {'扣款失败': 'danger'},
-                            formatter: Table.api.formatter.resp_msg
+                            field: 'created_at', 
+                            title: __('Created_at'),
+                            sortable: true,
+                            formatter: Table.api.formatter.datetime,
+                            operate: 'RANGE',
+                            addclass: 'datetimerange'
                         },
-                        {field: 'created_at', title: __('Created_at')},
 
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
                 ] ,
-                  
-                
+
+
                 showToggle: false,
-                
+
             });
 
             $("#cxselect-example .col-xs-12").each(function () {
@@ -96,6 +100,30 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
 
 
+            // 绑定TAB事件
+            /**
+            $('.panel-heading a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                var field = $(this).closest("ul").data("field");
+                var value = $(this).data("value");
+                var options = table.bootstrapTable('getOptions');
+                options.pageNumber = 1;
+                options.queryParams = function (params) {
+                    var filter = {};
+                    if (value !== '') { 
+                        filter[field] = value;
+                        if (value != '0'){
+                            params.op = JSON.stringify('!=');
+                        }
+                    }
+
+                    params.filter = JSON.stringify(filter); 
+                    console.log(params); 
+                    return params;
+                };
+                table.bootstrapTable('refresh', {});
+                return false;
+            });
+            **/
             // 为表格绑定事件
             Table.api.bindevent(table);
         },
