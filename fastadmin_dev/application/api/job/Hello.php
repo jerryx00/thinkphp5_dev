@@ -1,5 +1,6 @@
 <?php
-namespace app\demo\job;
+namespace app\index\job;
+
 /**
 * 文件路径： \app\demo\job\Hello.php
 * 这是一个消费者类，用于处理 helloJobQueue 队列中的任务
@@ -44,7 +45,7 @@ class Hello {
         // 根据消息中的数据进行实际的业务处理...
         $list = Db::table('qw_goods_yt')->where(['status'=>1])->order('created_at')->select();
         //        print("<info>Hello Job Started. job Data is: ".var_export($list,true)."</info> \n");
-        print(count($list) ." .task(s) \n");  
+        print(count($list) ." .task(s) \n");
         if ($list !== false) {
             foreach ($list as $k => $v) {
                 $info = 'fluxid:'.$v['fluxid'].' ; goods:'.$v['fluxnum'].' ;price:'.$v['price'];

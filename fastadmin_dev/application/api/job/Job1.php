@@ -1,5 +1,5 @@
 <?php
-  namespace app\job;
+namespace app\index\job;
 
 use think\queue\Job;
 

@@ -1,5 +1,6 @@
 <?php
-namespace app\admin\job;
+namespace app\index\job;
+
 use think\queue\Job;
 class EmailJob{
 	public function fire(Job $job, $data){
