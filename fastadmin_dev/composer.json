@@ -26,7 +26,7 @@
         "overtrue/pinyin": "~3.0",
         "phpoffice/phpexcel": "^1.8",
         "topthink/think-image": "^1.0",
-        "topthink/think-queue": "1.1.6",
+        "topthink/think-queue": "1.1.6"
     },
     "config": {
         "preferred-install": "dist"
