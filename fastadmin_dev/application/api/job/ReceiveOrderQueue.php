@@ -62,6 +62,18 @@ class ReceiveOrderQueue {
 		$info['errcode'] = '0';
 		$info['errmsg'] = '';
 		// 根据消息中的数据进行实际的业务处理...
+		//检验黑白名单
+		//        $ret1 = $this->checkIPValid();
+		//检查订单商品是否存在
+		//        $ret1 = $this->checkGoodsValid();
+		//校验订单号是否重复提交
+		//        $ret2 = $this->checkOrdernoValid();
+		//检查费用是否充足
+		//        $ret3 = $this->checkFeeValid();
+         //订单提交给供货商
+		//$ret3 = $this->postToSupplier();
+		//如果提交失败，再直接把订单丢到NotifyOrderQueue队列中
+
 		$list = Db::table('qw_goods_yt')->where(['status'=>1])->order('created_at')->select();
 		if ($list !== false) {
 			return $info;
