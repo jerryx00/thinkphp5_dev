@@ -1,5 +1,5 @@
 <?php
-namespace app\index\job;
+namespace app\api\job;
 
 /**
 * 文件路径： \app\demo\job\Hello.php
@@ -25,6 +25,7 @@ class Hello {
             $job->delete();
             print("<info>Hello Job has been done and deleted"."</info>\n");
         }else{
+            print("<warn>Hello Job has been done failed!"."</warn>\n");
             if ($job->attempts() > 3) {
                 //通过这个方法可以检查这个任务已经重试了几次了
                 print("<warn>Hello Job has been retried more than 3 times!"."</warn>\n");
@@ -43,18 +44,10 @@ class Hello {
     */
     private function doHelloJob($data) {
         // 根据消息中的数据进行实际的业务处理...
-        $list = Db::table('qw_goods_yt')->where(['status'=>1])->order('created_at')->select();
+        $list = Db::table('qw_hlyorder')->where(['status'=>1])->order('created_at')->select();
         //        print("<info>Hello Job Started. job Data is: ".var_export($list,true)."</info> \n");
-        print(count($list) ." .task(s) \n");
-        if ($list !== false) {
-            foreach ($list as $k => $v) {
-                $info = 'fluxid:'.$v['fluxid'].' ; goods:'.$v['fluxnum'].' ;price:'.$v['price'];
-                $filter_w['id'] = $v['id'];
-                $upd_data['status'] = 0 ;
-                $ret1 = Db::table('qw_goods_yt')->where($filter_w)->update($upd_data);
-                print('update ' .$ret1 ."\n");
-            }
-        }
+        print(count($list) ." .row(s) \n");
+        
 
         //        print("<info>Hello Job Started. job Data is: ".var_export($data,true)."</info> \n");
         //        print("<info>Hello Job is Fired at " . date('Y-m-d H:i:s') ."</info> \n");

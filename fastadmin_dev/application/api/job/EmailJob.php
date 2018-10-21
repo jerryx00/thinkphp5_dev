@@ -1,5 +1,5 @@
 <?php
-namespace app\index\job;
+namespace app\api\job;
 
 use think\queue\Job;
 class EmailJob{

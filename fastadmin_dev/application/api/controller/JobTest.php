@@ -3,7 +3,7 @@
 * 文件路径： \application\index\controller\JobTest.php
 * 该控制器的业务代码中借助了thinkphp-queue 库，将一个消息推送到消息队列
 */
-namespace app\index\controller;
+namespace app\api\controller;
 
 use app\common\controller\Frontend;
 use app\common\library\Token;
@@ -11,7 +11,7 @@ use app\common\library\Token;
 use think\Exception;
 use think\Queue;
 
-//http://localhost/index.php/job_test/actionWithHelloJob.html
+//http://localhost/api/job_test/actionWithHelloJob.html
 
 class JobTest extends Frontend
 {
@@ -28,7 +28,7 @@ class JobTest extends Frontend
 
         // 1.当前任务将由哪个类来负责处理。 
         //   当轮到该任务时，系统将生成一个该类的实例，并调用其 fire 方法
-        $jobHandlerClassName  = 'app\demo\job\Hello'; 
+        $jobHandlerClassName  = 'app\api\job\Hello'; 
         // 2.当前任务归属的队列名称，如果为新队列，会自动创建
         $jobQueueName        = "helloJobQueue"; 
         // 3.当前任务所需的业务数据 . 不能为 resource 类型，其他类型最终将转化为json形式的字符串

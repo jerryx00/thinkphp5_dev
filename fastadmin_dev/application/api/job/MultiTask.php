@@ -3,7 +3,7 @@
 * 文件路径： \application\index\job\MultiTask.php
 * 这是一个消费者类，用于处理 multiTaskJobQueue 队列中的任务
 */
-namespace app\index\job;
+namespace app\api\job;
 
 use think\queue\Job;
 use think\Model;
