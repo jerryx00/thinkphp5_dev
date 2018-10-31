@@ -21,10 +21,7 @@ class Hlyofferbb extends Model
 
     ];
 
-public function getStatusAttr($value)
-    {
-        return $value=='1' ? '上架' : '下架';
-    }
+
 
     
 

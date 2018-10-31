@@ -80,7 +80,7 @@ class Cxselect extends HlybandBase
             $order_para['AddressName'] = $properties_of_area['Address'];
             //			$order_para['NetworkAccess'] = $properties_of_area['NetworkType'];
             //上面的  $properties_of_area['NetworkType']有时查询返回FTTB|FTTH，所以选择用户手工输入
-            $order_para['AddressName'] = $row['AddressName'] ;
+            $order_para['NetworkAccess'] = $row['NetworkAccess'];
             unset($order_para['AreaCode']);
             unset($order_para['Address']);
             unset($properties_of_area);
