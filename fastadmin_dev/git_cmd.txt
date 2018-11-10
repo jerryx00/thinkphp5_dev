@@ -1,0 +1,28 @@
+git  用法
+命令行
+第一次
+git add .
+git commit -m "init commit"
+git remote add origin https://github.com/jerrynj/1.0.0.20180911_full.git
+git pull origin master (可能会出错，可忽略)
+git push -u origin master
+
+
+第二次
+git add .
+git commit -m "init commit"
+git push -u origin master
+
+
+取消本地修改
+git reset HEAD . 
+
+
+设置特定文件不比较
+git config diff.nodiff.command /usr/bin/true
+然后将.gitattributes文件放到目录下（.gitignore在一起）
+
+删除已经提交的目录
+git rm -r .idea
+git commit -m "init commit"
+git push -u origin master
