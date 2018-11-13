@@ -68,6 +68,7 @@ protected $dataLimitField = 'uid'; //数据关联字段,当前控制器对应的
 				$data['icno'] = $params['icNo'];
 				$data['type'] = $params['type'];
 
+
 				$data['uid'] = (int)$this->auth->id;
 
 				$filter['custname'] = $data['custname'];
