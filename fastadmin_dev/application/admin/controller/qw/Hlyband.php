@@ -19,49 +19,21 @@ class Hlyband extends HlybandBase
 	*/
 	protected $model = null;
 	protected $table = 'qw_hlyband';
-	protected $dataLimit = 'auth'; //默认基类中为false，表示不启用，可额外使用auth和personal两个值
-	protected $dataLimitField = 'uid'; //数据关联字段,当前控制器对应的模型表中必须存在该字段
-    protected $searchFields = 'custname,accnbr,orderid,bookingid,addressname';
-    
+protected $dataLimit = 'auth'; //默认基类中为false，表示不启用，可额外使用auth和personal两个值
+protected $dataLimitField = 'uid'; //数据关联字段,当前控制器对应的模型表中必须存在该字段
+
+
 	public function _initialize()
 	{
 		parent::_initialize();
 		$this->model = new \app\admin\model\qw\Hlyband;
 		$this->view->assign("regionList", $this->model->getRegion());
+		$this->view->assign("regionList1", $this->model->getRegionList());
 		$this->view->assign("typeList", $this->model->getOfferIdList());
-        $this->view->assign("statusList", $this->model->getStatusList());  
+
+
 
 	}
-     public function index()
-    {
-        //设置过滤方法
-        $this->request->filter(['strip_tags']);
-        $filter = $this->request->get('filter');
-        
-        if ($this->request->isAjax()) {
-            //如果发送的来源是Selectpage，则转发到Selectpage
-            if ($this->request->request('keyField')) {
-                return $this->selectpage();
-            }
-            list($where, $sort, $order, $offset, $limit) = $this->buildparams();
-            $total = $this->model
-                ->where($where)
-                ->order($sort, $order)
-                ->count();
-
-            $list = $this->model
-                ->where($where)
-                ->order($sort, $order)
-                ->limit($offset, $limit)
-                ->select();
-
-            $list = collection($list)->toArray();
-            $result = array("total" => $total, "rows" => $list);
-
-            return json($result);
-        }
-        return $this->view->fetch();
-    }
 
 	/**
 	* 身份校验
@@ -95,6 +67,7 @@ class Hlyband extends HlybandBase
 				$data['comments'] = $areaname;
 				$data['icno'] = $params['icNo'];
 				$data['type'] = $params['type'];
+
 				$data['uid'] = (int)$this->auth->id;
 
 				$filter['custname'] = $data['custname'];

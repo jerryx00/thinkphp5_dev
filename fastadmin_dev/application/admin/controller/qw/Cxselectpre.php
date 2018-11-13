@@ -1,4 +1,5 @@
 <?php
+
 namespace app\admin\controller\qw;
 
 use app\common\controller\Backend;
@@ -19,6 +20,7 @@ class Cxselectpre extends HlybandBase
 	protected $model = null;
 	protected $table = 'qw_hlybandpre';
 	protected $commitCnt = 0;
+	protected $noNeedRight = ['*'];
 
 	public function _initialize()
 	{

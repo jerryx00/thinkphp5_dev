@@ -1,4 +1,5 @@
 <?php
+
 namespace app\admin\controller\qw;
 
 use app\common\controller\Backend;
@@ -16,6 +17,9 @@ class HlybandBase extends Backend
     * @var \app\admin\model\qw\Hlyband
     */
     protected $model = null;
+protected $dataLimit = 'auth'; //默认基类中为false，表示不启用，可额外使用auth和personal两个值
+protected $dataLimitField = 'uid'; //数据关联字段,当前控制器对应的模型表中必须存在该字段
+
 
 
     protected function callService($url, $params) {
@@ -70,13 +74,12 @@ class HlybandBase extends Backend
         return $r;
     }
 
-//to fix
     public function general($params, $url='addressSearch', $times=1)
-    {
+	{
 		$citylist = [];
 		$citys = [];
 		if ($times == 1){
-        $citylist = $this->getAddr($url, $params);
+			$citylist = $this->getAddr($url, $params);
 		}   else {
 			for($n=0;$n<$times;$n++){
 				$params['Page'] = $n + 1;
@@ -89,9 +92,8 @@ class HlybandBase extends Backend
 				$citylist = array_merge($citylist, $citys[$n]);
 			}
 		}
-        $this->success('', null, $citylist);
-    }
-
+		$this->success('', null, $citylist);
+	}
 
 
 }
